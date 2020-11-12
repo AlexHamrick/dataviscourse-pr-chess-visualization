@@ -7,30 +7,41 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="JS/script.js" async></script>
+    <script src="JS/chess_openings.js"></script>
 </head>
 
 <body>
-<div id="header">
-    <h1>Chess Openings and ELOs</h1>
-</div>
-<div class="row">
-    <div>
-        <svg id="openings"></svg>
-        <text>Chess Openings</text>
+    <div id="header">
+        <h1>Chess Openings and ELOs</h1>
     </div>
-
-    <div>
+    <div class="row">
         <div>
-            <svg id="gini"></svg>
-            <text>Gini</text>
+            <table id="openings">
+                <thead>
+                    <tr id="openingsHeaders">
+                        <th class="sortable">Opening</th>
+                        <th class="sortable">Games</th>
+                        <th class="sortable">White Draw Black</th>
+                    </tr>
+                </thead>
+                <tbody id="openingsBody">
+
+                </tbody>
+            </table>
         </div>
 
         <div>
-            <svg id="best-players"></svg>
-            <text>Best Players</text>
+            <div>
+                <svg id="gini"></svg>
+                <text>Gini</text>
+            </div>
+
+            <div>
+                <svg id="best-players"></svg>
+                <text>Best Players</text>
+            </div>
         </div>
     </div>
-</div>
 </body>
 
 </html>
