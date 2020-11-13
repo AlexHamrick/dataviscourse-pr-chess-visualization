@@ -43,7 +43,28 @@ class ChessOpenings {
         let gamesCol = tdSelection.filter((d, i) => i === 1);
         gamesCol.text(d => d.games);
         let resultCol = tdSelection.filter((d,i) => i === 2);
-        resultCol.text(d => `white:${d.white} draw:${d.draw} black:${d.black}`);
+        let series = d3.stack().keys(["white", "draw", "black"])(this.reducdedData);
+        let transpose = d3.transpose(series);
+        let maxGames = d3.max(this.reducdedData.map(d => d.games));
+        let xScale = d3.scaleLinear().domain([0,maxGames]).range([0,200]);
+        let svg = resultCol.append("svg").attr("width",300).attr("height", 50);
+        let group = svg.append("g");
+        let bars = group
+            .selectAll("rect").data((d,i) => transpose[i]).join("rect")
+            .attr("x",d => xScale(d[0]))
+            .attr("y", 10)
+            .attr("width", d => xScale(d[1]) - xScale(d[0]))
+            .attr("height", 30)
+            .attr("fill", function (d,i) {
+                if (i == 0) {
+                    return 'white';
+                } else if (i == 1) {
+                    return 'grey';
+                } else {
+                    return 'black';
+                }
+            })
+            .attr("stroke", "black");
     }
 
 }
