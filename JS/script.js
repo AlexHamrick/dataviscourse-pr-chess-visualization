@@ -4,7 +4,8 @@ loadData().then(data => {
     let chessOpenings = new ChessOpenings(bestPlayers);
 
     // Gini Impurity Results
-    
+    let giniImpurityData = data["GiniImpurites"]
+    let giniImpurity = new GiniImpurity(giniImpurityData);
 });
 
 async function loadData() {
