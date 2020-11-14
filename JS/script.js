@@ -1,7 +1,7 @@
 loadData().then(data => {
-    // Chess Opening Results
-    let bestPlayers = data["BestPlayers"];
-    let chessOpenings = new ChessOpenings(bestPlayers);
+    // // Chess Opening Results
+    // let bestPlayers = data["BestPlayers"];
+    // let chessOpenings = new ChessOpenings(bestPlayers);
 
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
@@ -28,10 +28,10 @@ async function loadData() {
     let giniImpuritiesPath = 'Data/GiniImpurity.csv';
     let giniImpurites = await d3.dsv(';', giniImpuritiesPath, function (d) {
         return {
-            whiteName: d.WhiteName,
-            giniImpurity: d.GiniImpurity,
-            talliedGames: d.GamesInDataset,
-            maxElo : d.MaxElo
+            WhiteName: d.WhiteName,
+            GiniImpurity: d.GiniImpurity,
+            TalliedGames: d.GamesInDataset,
+            MaxElo : d.MaxElo
         };
     });
 
