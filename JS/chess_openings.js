@@ -80,15 +80,15 @@ class ChessOpenings {
         let resultCol = tdSelection.filter((d,i) => i === 2);
         let series = d3.stack().keys(["white", "draw", "black"])(this.reducdedData);
         let transpose = d3.transpose(series);
-        let xScale = d3.scaleLinear().domain([0,1]).range([0,200]);
-        let svg = resultCol.append("svg").attr("width",210).attr("height", 40);
+        let xScale = d3.scaleLinear().domain([0,1]).range([0,400]);
+        let svg = resultCol.append("svg").attr("width",410).attr("height", 50);
         let group = svg.append("g");
         let bars = group
             .selectAll("rect").data((d,i) => transpose[i]).join("rect")
             .attr("x",d => xScale(d[0]/d.data['games']))
             .attr("y", 10)
             .attr("width", d => xScale((d[1]-d[0])/d.data['games']))
-            .attr("height", 20)
+            .attr("height", 30)
             .attr("fill", function (d,i) {
                 if (i == 0) {
                     return 'white';
@@ -100,6 +100,21 @@ class ChessOpenings {
             })
             .attr("stroke", "black")
             .attr("transform", "translate(5,0)");
+
+        let percentages = group.append("svg")
+            .selectAll("text").data((d,i) => transpose[i]).join("text")
+            .text(d => `${Math.round(100*(d[1]-d[0])/d.data['games'])}%`)
+            .attr("x",d => 8 + xScale(d[0]/d.data['games']))
+            .attr("y", 30)
+            .attr("fill", function (d, i) {
+                if (i == 0) {
+                    return "black";
+                } else if (i == 1) {
+                    return "white";
+                } else {
+                    return "white";
+                }
+            });
     }
 
     updateHeaders() {
