@@ -60,6 +60,10 @@ class ChessOpenings {
             },
         ]
         this.attachSortHandlers();
+        // Start sorted by most games
+        that.reducdedData.sort(function(a,b) {
+            return d3.descending(a.games, b.games);
+        });
         this.drawTable();
     }
 
