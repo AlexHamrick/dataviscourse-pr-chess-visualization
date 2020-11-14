@@ -109,7 +109,6 @@ class ChessOpenings {
 
         openingsHeaders.classed("sorting", d => d.sorted);
         let icons = openingsHeaders.selectAll("i").data(d => [d]);
-        console.log(icons);
         icons.classed("fas", true);
         icons.classed("no-display", d => !d.sorted);
         icons.classed("fa-sort-up", d => d.ascending);
