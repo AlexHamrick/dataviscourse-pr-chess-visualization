@@ -79,7 +79,7 @@ class ChessOpenings {
         let series = d3.stack().keys(["white", "draw", "black"])(this.reducdedData);
         let transpose = d3.transpose(series);
         let xScale = d3.scaleLinear().domain([0,1]).range([0,200]);
-        let svg = resultCol.append("svg").attr("width",300).attr("height", 40);
+        let svg = resultCol.append("svg").attr("width",210).attr("height", 40);
         let group = svg.append("g");
         let bars = group
             .selectAll("rect").data((d,i) => transpose[i]).join("rect")
@@ -96,7 +96,8 @@ class ChessOpenings {
                     return 'black';
                 }
             })
-            .attr("stroke", "black");
+            .attr("stroke", "black")
+            .attr("transform", "translate(5,0)");
     }
 
     attachSortHandlers() {

@@ -18,8 +18,16 @@ table {
 th {
     font-weight: normal;
     text-align: center;
+    padding-left: 6px;
     padding-right: 6px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     min-width: 40px;
+    border: 1px solid black;
+}
+
+th rect {
+    border: 1px solid black;
 }
 
 td {
