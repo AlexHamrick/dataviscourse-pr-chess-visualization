@@ -2,13 +2,19 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: center;
+}
+
 .row {
     display : grid;
     grid-template-columns: 1fr 1fr;
+    justify-items: center;
 }
 
 table {
     border-collapse: collapse;
+    align-content: center;
 }
 
 th {
@@ -19,8 +25,6 @@ th {
     padding-top: 20px;
     padding-bottom: 20px;
     min-width: 40px;
-    border: 1px solid black;
-    background-color: lightsteelblue;
 }
 
 th rect {
@@ -54,7 +58,7 @@ td {
 
 .sortable.sorting:hover {
     color: white;
-    background-color: grey;
+    background-color: black;
 }
 
 .no-display {
