@@ -4,5 +4,28 @@
 }
 
 .sortable {
-    
+    user-select: none;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+table {
+    border-collapse: collapse;
+    font: 14px sans-serif;
+}
+
+th {
+    font-weight: normal;
+    text-align: center;
+    padding-right: 6px;
+    min-width: 40px;
+}
+
+td {
+    text-align: center;
+}
+
+.sortable:hover {
+    background: #d1d1d1;
 }
