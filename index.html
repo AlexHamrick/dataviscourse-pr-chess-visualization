@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chess Visualization</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" />
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="JS/script.js" async></script>
@@ -19,12 +20,16 @@
             <table id="openings">
                 <thead>
                 <tr id="openingsHeaders">
-                    <th class="sortable">Opening</th>
-                    <th class="sortable">Games</th>
                     <th>
-                        <rect class="sortable">White</rect>
-                        <rect class="sortable">Draw</rect>
-                        <rect class="sortable">Black</rect>
+                        <rect class="sortable">Opening <i class="fas no-display"></i></rect>
+                    </th>
+                    <th>
+                        <rect class="sortable">Games <i class="fas no-display"></i></rect>
+                    </th>
+                    <th>
+                        <rect class="sortable">White <i class="fas no-display"></i></rect>
+                        <rect class="sortable">Draw <i class="fas no-display"></i></rect>
+                        <rect class="sortable">Black <i class="fas no-display"></i></rect>
                     </th>
 
                 </tr>

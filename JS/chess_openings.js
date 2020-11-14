@@ -39,7 +39,7 @@ class ChessOpenings {
                 key: 'thOpenings'
             },
             {
-                sorted: false,
+                sorted: true,
                 ascending: false,
                 key: 'thGames'
             },
@@ -64,11 +64,13 @@ class ChessOpenings {
         that.reducdedData.sort(function(a,b) {
             return d3.descending(a.games, b.games);
         });
+        this.updateHeaders();
         this.drawTable();
     }
 
     drawTable() {
         d3.select("#openingsBody").selectAll("tr").remove();
+        this.updateHeaders();
         let rowSelection = d3.select("#openingsBody").selectAll("tr").data(this.reducdedData).join("tr");
         let tdSelection = rowSelection.selectAll("td").data(d => [d, d, d]).join("td");
         let openingCol = tdSelection.filter((d, i) => i === 0);
@@ -98,6 +100,20 @@ class ChessOpenings {
             })
             .attr("stroke", "black")
             .attr("transform", "translate(5,0)");
+    }
+
+    updateHeaders() {
+        let openingsHeaders = d3.select("#openingsHeaders")
+            .selectAll(".sortable")
+            .data(this.headerData);
+
+        openingsHeaders.classed("sorting", d => d.sorted);
+        let icons = openingsHeaders.selectAll("i").data(d => [d]);
+        console.log(icons);
+        icons.classed("fas", true);
+        icons.classed("no-display", d => !d.sorted);
+        icons.classed("fa-sort-up", d => d.ascending);
+        icons.classed("fa-sort-down", d => !d.ascending);
     }
 
     attachSortHandlers() {
