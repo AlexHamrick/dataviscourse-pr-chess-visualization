@@ -10,8 +10,8 @@ loadData().then(data => {
 
 async function loadData() {
     // Load data for Chess Opening Results
-    let bestPlayersReformatPath = 'Data/BestPlayersReformat.csv';
-    let bestPlayers = await d3.csv(bestPlayersReformatPath, function (d) {
+    let bestPlayersPath = 'Data/BestPlayers.csv';
+    let bestPlayers = await d3.dsv(';', bestPlayersPath, function (d) {
         return {
             date: d.Date,
             whiteName: d.WhiteName,
