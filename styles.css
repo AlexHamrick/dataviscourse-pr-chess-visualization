@@ -64,3 +64,18 @@ td {
 .no-display {
     display: none !important;
 }
+
+#playerRankings {
+    width: 700px;
+}
+
+
+#playerRankings g {
+    font: 18px arial;
+
+}
+#playerRankings .axisLabel {
+    font: 18px arial;
+    font-weight: 600;
+}
+

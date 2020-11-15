@@ -6,6 +6,11 @@ loadData().then(data => {
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
     let giniImpurity = new GiniImpurity(giniImpurityData);
+
+    // Top Players Results
+    let topRankedPlayersData = data["TopRankedPlayers"];
+    let playerCareerData = data["PlayerCareers"];
+    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData);
 });
 
 async function loadData() {
@@ -35,8 +40,29 @@ async function loadData() {
         };
     });
 
+    // Load data for Best Players
+    let topPlayersPath = 'Data/TopPlayersByYear.csv';
+    let playerCareersPath = 'Data/TopPlayerCareers.csv';
+    let topPlayers = await d3.dsv(';', topPlayersPath, function (d) {
+        return {
+            name: d.PlayerName,
+            date: d.Date,
+            elo: d.Elo
+        };
+    });
+
+    let playerCareers = await d3.dsv(';', playerCareersPath, function (d) {
+        return {
+            name: d.PlayerName,
+            date: d.Date,
+            elo: d.Elo
+        };
+    });
+
     return {
         BestPlayers: bestPlayers,
-        GiniImpurites: giniImpurites
+        GiniImpurites: giniImpurites,
+        TopRankedPlayers: topPlayers,
+        PlayerCareers: playerCareers
     };
 }
