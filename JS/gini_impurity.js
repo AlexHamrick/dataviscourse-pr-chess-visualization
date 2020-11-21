@@ -63,7 +63,7 @@ class GiniImpurity {
             return x => Math.abs(x /= bandwidth) <= 1 ? 0.75 * (1 - x * x) / bandwidth : 0;
           }
 
-        let bandwidth = 0.001
+        let bandwidth = 0.05
 
         let line = d3.line()
             .curve(d3.curveBasis)
