@@ -1,16 +1,16 @@
 loadData().then(data => {
-    // // Chess Opening Results
-    let bestPlayers = data["BestPlayers"];
-    let chessOpenings = new ChessOpenings(bestPlayers);
+    // // // Chess Opening Results
+    // let bestPlayers = data["BestPlayers"];
+    // let chessOpenings = new ChessOpenings(bestPlayers);
 
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
     let giniImpurity = new GiniImpurity(giniImpurityData);
 
-    // Top Players Results
-    let topRankedPlayersData = data["TopRankedPlayers"];
-    let playerCareerData = data["PlayerCareers"];
-    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData);
+    // // Top Players Results
+    // let topRankedPlayersData = data["TopRankedPlayers"];
+    // let playerCareerData = data["PlayerCareers"];
+    // let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData);
 });
 
 async function loadData() {
