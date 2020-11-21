@@ -1,6 +1,5 @@
 // KERNAL RESOURCES FOR LATER
-// https://en.wikipedia.org/wiki/Kernel_(statistics)
-// https://observablehq.com/@d3/kernel-density-estimation  
+
 
 class GiniImpurity {
     constructor(data) {
@@ -54,7 +53,9 @@ class GiniImpurity {
         // Do iniital drawing
         this.setUp()
         this.drawHistogram()
+        this.drawDensity()
     }
+
 
     setSelectedBin(selectedName) {
         let foundName = false
@@ -85,8 +86,6 @@ class GiniImpurity {
             .range([this.dimensions.height, 0])
             .domain([0, d3.max(this.bins, d => d["length"])])
 
-        console.log(histYAxisScale.domain())
-
         // Get svg group for gini plot
         let giniPlot = d3.select("#gini-plot")
 
@@ -101,6 +100,8 @@ class GiniImpurity {
             .attr("class", "gini-y-axis")
             .call(d3.axisLeft(histYAxisScale))
 
+        // TODO: Remove style and use only class
+
         // Draw histogram
         giniPlot.selectAll("rect")
             .data(this.bins)
@@ -112,8 +113,40 @@ class GiniImpurity {
             .attr("height", d => this.dimensions.height - histYAxisScale(d["length"]))
             .attr("class", d => d["selectedBin"] ? "selected-bin" : "")
             .style("fill", d => d["selectedBin"] ? "red" : "gray")
+    }
 
-        console.log(this.bins)
+
+
+    drawDensity() {
+        // Get density data for line
+        let bandwidth = 0.05
+        let ticks = 50
+
+        let thresholds = this.xAxisScale.ticks(ticks)
+        let giniScores = this.data.map(d => d["GiniImpurity"])
+        let density = this.kde(this.epanechnikov(bandwidth), thresholds, giniScores)
+
+        // Get a y-axis for density
+        let densityYAxisScale = d3.scaleLinear()
+            .domain([0, d3.max(density, d => d[1])])
+            .range([this.dimensions.height, 0])
+
+        // Get line
+        let line = d3.line()
+            .curve(d3.curveBasis)
+            .x(d => this.xAxisScale(d[0]))
+            .y(d => densityYAxisScale(d[1]))
+
+        // Get svg group for gini plot
+        let giniPlot = d3.select("#gini-plot")
+
+        giniPlot.append("path")
+            .datum(density)
+            .attr("fill", "none")
+            .attr("stroke", "#000")
+            .attr("stroke-width", 2)
+            .attr("stroke-linejoin", "round")
+            .attr("d", line);
     }
 
     setUp() {
@@ -220,16 +253,13 @@ class GiniImpurity {
 
     }
 
-    setUpAxes(giniPlot) {
-        // Create x-axis
-        giniPlot.append("g")
-            .attr("class", "gini-x-axis")
-            .attr("transform", "translate(0," + this.dimensions.height + ")")
-            .call(d3.axisBottom(this.xAxisScale))
+    // https://en.wikipedia.org/wiki/Kernel_(statistics)
+    // https://observablehq.com/@d3/kernel-density-estimation  
+    kde(kernel, thresholds, data) {
+        return thresholds.map(t => [t, d3.mean(data, d => kernel(t - d))]);
+    }
 
-        // Create y-axis
-        giniPlot.append("g")
-            .attr("class", "gini-y-axis")
-            .call(d3.axisLeft(this.densityYAxisScale))
+    epanechnikov(bandwidth) {
+        return x => Math.abs(x /= bandwidth) <= 1 ? 0.75 * (1 - x * x) / bandwidth : 0;
     }
 }
