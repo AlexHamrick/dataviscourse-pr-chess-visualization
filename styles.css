@@ -12,6 +12,27 @@ h2 {
     justify-items: center;
 }
 
+#openingsDiv {
+    width: 700px;
+    height: 875px;
+    overflow: scroll;
+}
+
+#sortTableByWhite {
+    background-color: white;
+    color:black;
+}
+
+#sortTableByDraw {
+    background-color: grey;
+    color: white;
+}
+
+#sortTableByBlack {
+    background-color: black;
+    color: white;
+}
+
 table {
     border-collapse: collapse;
     align-content: center;
@@ -51,15 +72,15 @@ td {
     background: #cccccc;
 }
 
-.sorting {
-    background: black;
-    color: white;
-}
+/*.sorting {*/
+/*    background: black;*/
+/*    color: white;*/
+/*}*/
 
-.sortable.sorting:hover {
-    color: white;
-    background-color: black;
-}
+/*.sortable.sorting:hover {*/
+/*    color: white;*/
+/*    background-color: black;*/
+/*}*/
 
 .no-display {
     display: none !important;
