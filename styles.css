@@ -23,14 +23,29 @@ h2 {
     color:black;
 }
 
+#sortTableByWhite:hover {
+    background: steelblue;
+    color:white;
+}
+
 #sortTableByDraw {
     background-color: grey;
     color: white;
 }
 
+#sortTableByDraw:hover {
+    background: steelblue;
+    color:white;
+}
+
 #sortTableByBlack {
     background-color: black;
     color: white;
+}
+
+#sortTableByBlack:hover {
+    background: steelblue;
+    color:white;
 }
 
 table {
@@ -69,7 +84,8 @@ td {
 }
 
 .sortable:hover {
-    background: #cccccc;
+    background: steelblue;
+    color: white;
 }
 
 /*.sorting {*/
