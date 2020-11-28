@@ -7,10 +7,14 @@ loadData().then(data => {
     let giniImpurityData = data["GiniImpurites"]
     let giniImpurity = new GiniImpurity(giniImpurityData);
 
+    function updateOtherPlots(currentYear) {
+        chessOpenings.updateYear(currentYear);
+    }
+
     // Top Players Results
     let topRankedPlayersData = data["TopRankedPlayers"];
     let playerCareerData = data["PlayerCareers"];
-    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData);
+    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData, updateOtherPlots);
 });
 
 async function loadData() {

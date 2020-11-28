@@ -1,8 +1,4 @@
-h1 {
-    text-align: center;
-}
-
-h2 {
+h1, h2 {
     text-align: center;
 }
 
@@ -116,3 +112,58 @@ td {
     font-weight: 600;
 }
 
+/*
+All slider css styles are from HW4
+(partial edits have been made)
+ */
+
+.slider {
+    -webkit-appearance: none;
+    width: 600px;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin-left: 20px
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: darkblue;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #D4E157;
+    cursor: pointer;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider-label svg {
+    width: 600px;
+    height: 35px;
+}
+
+.slider-label svg text {
+    text-anchor: middle;
+}
+
+.slider-wrap {
+    display: inline-block;
+    float: left;
+    width: 600px;
+    margin-left: 50px;
+}

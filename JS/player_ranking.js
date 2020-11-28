@@ -1,5 +1,6 @@
 class PlayerRanking {
-    constructor(rankingData, careerData) {
+    constructor(rankingData, careerData, updateOtherViews) {
+        this.updateOtherViews = updateOtherViews;
         this.playersPerYear = 10;
         this.rankingData = {};
         this.careerData = {};
@@ -18,16 +19,19 @@ class PlayerRanking {
             }
             this.careerData[name].push(careerData[i])
         }
+        // console.log('rankingData', this.rankingData);
+        // console.log('careerData', this.careerData);
         this.minYear = rankingData[0]['date'];
         this.maxYear = rankingData[rankingData.length-1]['date'];
         let elos = careerData.map(d => d.elo)
-        console.log(elos)
+        // console.log('elos', elos)
         this.maxElo = d3.max(elos);
         this.minElo = d3.min(elos);
         this.margin = { top: 10, right: 30, bottom: 45, left: 75 };
         this.vizWidth = 700-this.margin.left-this.margin.right;
         this.vizHeight = 400-this.margin.top-this.margin.bottom;
         this.dates = [...new Set(rankingData.map(d => d.date))]
+        // console.log('dates', this.dates);
         this.scaleElo = d3.scaleLinear()
             .domain([this.minElo, this.maxElo])
             .range([this.vizHeight, 0]);
@@ -35,8 +39,8 @@ class PlayerRanking {
             .domain([this.dates[0], this.dates[this.dates.length - 1]])
             .range([0, this.vizWidth]);
         this.drawPlot();
-        console.log(this.rankingData[1952][0]['elo']);
-        console.log(this.minElo, this.maxElo);
+        // console.log(this.rankingData[1952][0]['elo']);
+        // console.log(this.minElo, this.maxElo);
     }
 
     drawPlot() {
@@ -85,6 +89,59 @@ class PlayerRanking {
             //.attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Elo")
-            .attr('class', 'axisLabel'); 
+            .attr('class', 'axisLabel');
+
+        //*@@@@@@ The below code section is based off of HW4 @@@@@@//
+        let yearScale = d3.scaleLinear().domain([this.minYear, this.maxYear]).range([25, 600]);
+
+        let yearSlider = d3.select('#activeYear-bar')
+            .append('div').classed('slider-wrap', true)
+            .append('input').classed('slider', true)
+            .attr('type', 'range')
+            .attr('min', this.minYear)
+            .attr('max', this.maxYear)
+            .attr('value', this.minYear);
+
+        let sliderLabel = d3.select('.slider-wrap')
+            .append('div').classed('slider-label', true)
+            .append('svg');
+
+        let sliderText = sliderLabel.append('text').text(this.minYear);
+
+        sliderText.attr('x', yearScale(this.minYear));
+        sliderText.attr('y', 25);
+        sliderText.attr("fill", "darkblue");
+        sliderText.attr("font-size","22px");
+
+        yearSlider.on('input', function () {
+            let currentYear = yearSlider.property("value");
+            sliderText.attr("x", yearScale(currentYear))
+            sliderText.text(currentYear);
+            that.updateTopPlayerLines(currentYear);
+            that.updateOtherViews(currentYear);
+        });
+        //*@@@@@@ The above code section is based off of HW4 @@@@@@//
+    }
+
+    updateTopPlayerLines(currentYear) {
+        d3.select("#rankPlot").selectAll(".topPaths").remove();
+        let plot = d3.select("#rankPlot");
+        let that = this;
+        let currYearTopPlayers = that.rankingData[currentYear];
+        if (currYearTopPlayers) {
+            let first = currYearTopPlayers[0];
+            let firstCareer = that.careerData[first.name];
+            plot.append("path")
+                .classed("topPaths", true)
+                .datum(firstCareer)
+                .attr("fill", "none")
+                .attr("stroke", "red")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function (d) { return that.scaleDates(d.date) })
+                    .y(function (d) { return that.scaleElo(d.elo) })
+                );
+        }
+
     }
 }

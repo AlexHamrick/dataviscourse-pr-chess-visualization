@@ -117,6 +117,10 @@ class ChessOpenings {
             });
     }
 
+    updateYear(currentYear) {
+        d3.select("#chessOpeningsYear").text(currentYear + ' (update table not implemented yet)');
+    }
+
     updateHeaders() {
         let openingsHeaders = d3.select("#openingsHeaders")
             .selectAll(".sortable")
