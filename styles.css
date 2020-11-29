@@ -198,4 +198,9 @@ All slider css styles are from HW4
     fill: red
 }
 
-
+#gini .density-line {
+    fill: none;
+    stroke: #570057;
+    stroke-width: 2.2;
+    stroke-linejoin: round;
+}

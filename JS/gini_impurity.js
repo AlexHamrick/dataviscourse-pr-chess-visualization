@@ -107,15 +107,11 @@ class GiniImpurity {
             .x(d => this.xAxisScale(d[0]))
             .y(d => densityYAxisScale(d[1]))
 
-        // TODO: Use classes
         // Get svg group for gini density plot
         let giniPlotDensity = d3.select("#gini-plot-density")
         giniPlotDensity.append("path")
             .datum(density)
-            .attr("fill", "none")
-            .attr("stroke", "#000")
-            .attr("stroke-width", 2)
-            .attr("stroke-linejoin", "round")
+            .attr("class", "density-line")
             .attr("d", line);
     }
 
