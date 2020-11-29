@@ -1,7 +1,7 @@
 loadData().then(data => {
-    // // Chess Opening Results
-    // let bestPlayers = data["BestPlayers"];
-    // let chessOpenings = new ChessOpenings(bestPlayers);
+    // Chess Opening Results
+    let bestPlayers = data["BestPlayers"];
+    let chessOpenings = new ChessOpenings(bestPlayers);
 
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
