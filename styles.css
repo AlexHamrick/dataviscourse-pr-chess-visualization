@@ -105,8 +105,8 @@ td {
 
 #playerRankings g {
     font: 18px arial;
-
 }
+
 #playerRankings .axisLabel {
     font: 18px arial;
     font-weight: 600;
@@ -169,6 +169,10 @@ All slider css styles are from HW4
 }
 
 /* Gini impurity formatting */
+#gini g {
+    font: 18px arial;
+}
+
 #gini .axisLabel {
     font: 18px arial;
     font-weight: 600;
@@ -180,4 +184,8 @@ All slider css styles are from HW4
 
 #gini .axisEnd {
     text-anchor: end;
+}
+
+#gini .axisMiddle {
+    text-anchor: middle;
 }

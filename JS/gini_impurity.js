@@ -81,6 +81,13 @@ class GiniImpurity {
             .attr("transform", "translate(" + this.margins.left + ", 0)")
             .call(d3.axisLeft(histYAxisScale))
 
+        giniPlotHistogram.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -10)
+            .attr("x", -(this.dimensions.height / 2))
+            .text("Player Tally")
+            .attr('class', 'axisLabel axisMiddle')        
+
         // TODO: Remove style and use only class
         // Draw histogram
         giniPlotHistogram.selectAll("rect")
