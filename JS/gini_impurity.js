@@ -58,10 +58,15 @@ class GiniImpurity {
         let giniPlotHistogram = d3.select("#gini-plot-histogram")
 
         // Create x-axis
+        // The below scale is used only to create an easy to understand axis
+        let mixednessScale = d3.scalePoint()
+            .domain(["Less Mixed", "More Mixed"])
+            .range([0, this.dimensions.width]);
+
         giniPlotHistogram.append("g")
             .attr("class", "gini-x-axis")
             .attr("transform", "translate(0," + this.dimensions.height + ")")
-            .call(d3.axisBottom(this.xAxisScale))
+            .call(d3.axisBottom(mixednessScale))
 
         // Create y-axis
         giniPlotHistogram.append("g")
