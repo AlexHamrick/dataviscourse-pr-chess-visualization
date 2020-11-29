@@ -1,6 +1,3 @@
-// KERNAL RESOURCES FOR LATER
-
-
 class GiniImpurity {
     constructor(data) {
         // Set up dimensions and margins
@@ -45,7 +42,7 @@ class GiniImpurity {
         this.setSelectedBin("")
 
         // Do iniital drawing
-        this.setUp()
+        this.setup()        
         this.drawHistogram()
         this.drawDensity()
     }
@@ -55,43 +52,8 @@ class GiniImpurity {
         let selectedName = "Donchenko, Anatoly G"
         this.setSelectedBin(selectedName)
 
-        // // Set up y axis
-        // let histYAxisScale = d3.scaleLinear()
-        //     .range([this.dimensions.height, 0])
-        //     .domain([0, d3.max(this.bins, d => d["length"])])
-
         // Get svg group for gini plot
         let giniPlotHistogram = d3.select("#gini-plot-histogram")
-
-        // Create x-axis
-        // The below scale is used only to create an easy to understand axis
-        let mixedOptions = ["Less Mixed", "More Mixed"]
-        let mixednessScale = d3.scalePoint()
-            .domain(mixedOptions)
-            .range([0 + this.margins.left, this.dimensions.width - this.margins.right])
-
-        let xAxis = giniPlotHistogram.append("g")
-            .attr("id", "gini-x-axis")
-            .attr("transform", "translate(0," + this.dimensions.height + ")")
-        xAxis.call(d3.axisBottom(mixednessScale))
-
-        xAxis
-            .data(mixedOptions)
-            .selectAll("text")
-            .attr("class", d => "axisLabel axis" + (d == mixedOptions[0] ? "Start" : "End"))
-
-        // Create y-axis
-        giniPlotHistogram.append("g")
-            .attr("id", "gini-y-axis")
-            .attr("transform", "translate(" + this.margins.left + ", 0)")
-            .call(d3.axisLeft(this.histYAxisScale))
-
-        giniPlotHistogram.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -10)
-            .attr("x", -(this.dimensions.height / 2))
-            .text("Player Tally")
-            .attr('class', 'axisLabel axisMiddle')       
 
         // TODO: Remove style and use only class
         // Draw histogram
@@ -159,7 +121,7 @@ class GiniImpurity {
             .attr("d", line);
     }
 
-    setUp() {
+    setup() {
         // Get svg
         let svg = d3.select("#gini")
             .select("svg")
@@ -180,6 +142,43 @@ class GiniImpurity {
         // Create a group for density
         giniPlot.append("g")
             .attr("id", "gini-plot-density")
+
+        this.setupAxes()
+    }
+
+    setupAxes() {
+        // Get svg group for gini plot
+        let giniPlotHistogram = d3.select("#gini-plot-histogram")
+
+        // Create x-axis
+        // The below scale is used only to create an easy to understand axis
+        let mixedOptions = ["Less Mixed", "More Mixed"]
+        let mixednessScale = d3.scalePoint()
+            .domain(mixedOptions)
+            .range([0 + this.margins.left, this.dimensions.width - this.margins.right])
+
+        let xAxis = giniPlotHistogram.append("g")
+            .attr("id", "gini-x-axis")
+            .attr("transform", "translate(0," + this.dimensions.height + ")")
+        xAxis.call(d3.axisBottom(mixednessScale))
+
+        xAxis
+            .data(mixedOptions)
+            .selectAll("text")
+            .attr("class", d => "axisLabel axis" + (d == mixedOptions[0] ? "Start" : "End"))
+
+        // Create y-axis
+        giniPlotHistogram.append("g")
+            .attr("id", "gini-y-axis")
+            .attr("transform", "translate(" + this.margins.left + ", 0)")
+            .call(d3.axisLeft(this.histYAxisScale))
+
+        giniPlotHistogram.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -10)
+            .attr("x", -(this.dimensions.height / 2))
+            .text("Player Tally")
+            .attr('class', 'axisLabel axisMiddle')
     }
 
     // https://en.wikipedia.org/wiki/Kernel_(statistics)
