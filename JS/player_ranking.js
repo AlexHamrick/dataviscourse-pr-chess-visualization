@@ -1,5 +1,8 @@
 class PlayerRanking {
     constructor(rankingData, careerData, updateOtherViews) {
+        ////////////////
+        this.topPlayerName = ""
+        ////////////////
         this.updateOtherViews = updateOtherViews;
         this.playersPerYear = 10;
         this.rankingData = {};
@@ -121,7 +124,7 @@ class PlayerRanking {
             sliderText.attr("x", yearScale(currentYear))
             sliderText.text(currentYear);
             that.updateTopPlayerLines(currentYear);
-            that.updateOtherViews(currentYear);
+            that.updateOtherViews(currentYear, that.topPlayerName);
         });
         //*@@@@@@ The above code section is based off of HW4 @@@@@@//
     }
@@ -157,6 +160,12 @@ class PlayerRanking {
                     .attr("stroke", that.playerColors[i])
                     .attr("font-size", "22px")
                     .attr('transform', 'translate(30,'+ (260+i*25) +' )');
+
+                /////////////////////
+                if(i == 0) {
+                    this.topPlayerName = first.name
+                }
+                /////////////////////
             }
         }
     }

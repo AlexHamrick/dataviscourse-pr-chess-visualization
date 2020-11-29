@@ -5,10 +5,11 @@ loadData().then(data => {
 
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
-    let giniImpurity = new GiniImpurity(giniImpurityData);
+    const giniImpurity = new GiniImpurity(giniImpurityData);
 
-    function updateOtherPlots(currentYear) {
+    function updateOtherPlots(currentYear, selectedName) {
         chessOpenings.updateYear(currentYear);
+        giniImpurity.drawHistogram(selectedName)
     }
 
     // Top Players Results

@@ -15,7 +15,6 @@ class GiniImpurity {
 
         // Set up x scale
         let minXRange = d3.min(data, d => d["GiniImpurity"])
-        console.log(minXRange)
         let maxXRange = 1
         this.xAxisScale = d3.scaleLinear()
             .domain([minXRange, maxXRange])
@@ -24,7 +23,7 @@ class GiniImpurity {
         // Set up data
         this.data = data
 
-        let numberOfBins = 20
+        let numberOfBins = 60
 
         let histogram = d3.histogram()
             .value(d => d["GiniImpurity"])
@@ -38,37 +37,41 @@ class GiniImpurity {
             .range([this.dimensions.height, 0])
             .domain([0, d3.max(this.bins, d => d["length"])])
 
-        // Adds the field selectedName to bins and sets it to false
-        this.setSelectedBin("")
-
         // Do iniital drawing
         this.setup()        
-        this.drawHistogram()
-        this.drawDensity()
+        this.drawHistogram("")
+        this.drawDensity()        
     }
 
-    drawHistogram() {
-        // TODO: Get rid of this selected bin proof of concept
-        let selectedName = "Donchenko, Anatoly G"
-        this.setSelectedBin(selectedName)
+    drawHistogram(selectedName) {
+        let selectedIdx = this.getSelectedBinIdx(selectedName)
+
+        for(let idx = 0; idx < this.bins.length; ++idx) {
+            if(idx == selectedIdx) {
+                this.bins[idx]['selectedName'] = true
+            } else {
+                this.bins[idx]['selectedName'] = false
+            }
+        }
 
         // Get svg group for gini plot
         let giniPlotHistogram = d3.select("#gini-plot-histogram")
 
         // Draw histogram
-        giniPlotHistogram.selectAll("rect")
+        let histBars = giniPlotHistogram.selectAll("rect")
             .data(this.bins)
-            .enter()
-            .append("rect")
+
+        histBars.join("rect")
             .attr("x", 0)
             .attr("transform", d => "translate(" + this.xAxisScale(d["x0"]) + "," + this.histYAxisScale(d["length"]) + ")")
             .attr("width", d => this.xAxisScale(d["x1"]) - this.xAxisScale(d["x0"]))
             .attr("height", d => this.dimensions.height - this.histYAxisScale(d["length"]))
-            .attr("class", d => d["selectedBin"] ? "selected-bin" : "")
+            .attr("class", (d, i) => i == selectedIdx ? "selected-bin" : "")
     }
 
-    setSelectedBin(selectedName) {
+    getSelectedBinIdx(selectedName) {
         let foundName = false
+        let idx = 0
 
         for (let bin of this.bins) {
             for (let binItem of bin) {
@@ -78,13 +81,14 @@ class GiniImpurity {
                 }
             }
 
-            if (foundName) {
-                bin["selectedBin"] = true
+            if(foundName) {
                 break
-            } else {
-                bin["selectedBin"] = false
             }
+
+            ++idx
         }
+
+        return foundName ? idx : -1
     }
 
     drawDensity() {
