@@ -169,7 +169,7 @@ All slider css styles are from HW4
 }
 
 /* Gini impurity formatting */
-.gini-y-axis {
-    font-size: 10;
-    font-family: 'sans-serif';
+#gini .axisLabel {
+    font: 18px arial;
+    font-weight: 600;
 }

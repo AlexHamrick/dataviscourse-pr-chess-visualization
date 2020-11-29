@@ -7,7 +7,7 @@ class GiniImpurity {
         this.margins = {
             top: 20,
             right: 10,
-            bottom: 20,
+            bottom: 30,
             left: 40
         }
 
@@ -64,10 +64,14 @@ class GiniImpurity {
             .domain(["Less Mixed", "More Mixed"])
             .range([0 + this.margins.left, this.dimensions.width - this.margins.right])
 
-        giniPlotHistogram.append("g")
+        let xAxis = giniPlotHistogram.append("g")
             .attr("id", "gini-x-axis")
             .attr("transform", "translate(0," + this.dimensions.height + ")")
-            .call(d3.axisBottom(mixednessScale))
+        xAxis.call(d3.axisBottom(mixednessScale))
+
+        xAxis.selectAll("text").attr("class", "axisLabel")
+
+        d3.select("gini-x-axis")
 
         // Create y-axis
         giniPlotHistogram.append("g")
