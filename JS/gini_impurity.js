@@ -36,6 +36,11 @@ class GiniImpurity {
 
         this.bins = histogram(this.data)
 
+        // Set up y scale
+        this.histYAxisScale = d3.scaleLinear()
+            .range([this.dimensions.height, 0])
+            .domain([0, d3.max(this.bins, d => d["length"])])
+
         // Adds the field selectedName to bins and sets it to false
         this.setSelectedBin("")
 
@@ -50,10 +55,10 @@ class GiniImpurity {
         let selectedName = "Donchenko, Anatoly G"
         this.setSelectedBin(selectedName)
 
-        // Set up y axis
-        let histYAxisScale = d3.scaleLinear()
-            .range([this.dimensions.height, 0])
-            .domain([0, d3.max(this.bins, d => d["length"])])
+        // // Set up y axis
+        // let histYAxisScale = d3.scaleLinear()
+        //     .range([this.dimensions.height, 0])
+        //     .domain([0, d3.max(this.bins, d => d["length"])])
 
         // Get svg group for gini plot
         let giniPlotHistogram = d3.select("#gini-plot-histogram")
@@ -79,14 +84,14 @@ class GiniImpurity {
         giniPlotHistogram.append("g")
             .attr("id", "gini-y-axis")
             .attr("transform", "translate(" + this.margins.left + ", 0)")
-            .call(d3.axisLeft(histYAxisScale))
+            .call(d3.axisLeft(this.histYAxisScale))
 
         giniPlotHistogram.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -10)
             .attr("x", -(this.dimensions.height / 2))
             .text("Player Tally")
-            .attr('class', 'axisLabel axisMiddle')        
+            .attr('class', 'axisLabel axisMiddle')       
 
         // TODO: Remove style and use only class
         // Draw histogram
@@ -95,9 +100,9 @@ class GiniImpurity {
             .enter()
             .append("rect")
             .attr("x", 0)
-            .attr("transform", d => "translate(" + this.xAxisScale(d["x0"]) + "," + histYAxisScale(d["length"]) + ")")
+            .attr("transform", d => "translate(" + this.xAxisScale(d["x0"]) + "," + this.histYAxisScale(d["length"]) + ")")
             .attr("width", d => this.xAxisScale(d["x1"]) - this.xAxisScale(d["x0"]))
-            .attr("height", d => this.dimensions.height - histYAxisScale(d["length"]))
+            .attr("height", d => this.dimensions.height - this.histYAxisScale(d["length"]))
             .attr("class", d => d["selectedBin"] ? "selected-bin" : "")
             .style("fill", d => d["selectedBin"] ? "red" : "gray")
     }
