@@ -55,7 +55,6 @@ class GiniImpurity {
         // Get svg group for gini plot
         let giniPlotHistogram = d3.select("#gini-plot-histogram")
 
-        // TODO: Remove style and use only class
         // Draw histogram
         giniPlotHistogram.selectAll("rect")
             .data(this.bins)
@@ -66,7 +65,6 @@ class GiniImpurity {
             .attr("width", d => this.xAxisScale(d["x1"]) - this.xAxisScale(d["x0"]))
             .attr("height", d => this.dimensions.height - this.histYAxisScale(d["length"]))
             .attr("class", d => d["selectedBin"] ? "selected-bin" : "")
-            .style("fill", d => d["selectedBin"] ? "red" : "gray")
     }
 
     setSelectedBin(selectedName) {

@@ -189,3 +189,13 @@ All slider css styles are from HW4
 #gini .axisMiddle {
     text-anchor: middle;
 }
+
+#gini rect {
+    fill: #04bdbd
+}
+
+#gini .selected-bin {
+    fill: red
+}
+
+
