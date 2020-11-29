@@ -19,6 +19,8 @@ class PlayerRanking {
             }
             this.careerData[name].push(careerData[i])
         }
+        this.PLAYER_COUNT = 3;
+        this.playerColors = [ "red", "blue", "green"];
         // console.log('rankingData', this.rankingData);
         // console.log('careerData', this.careerData);
         this.minYear = rankingData[0]['date'];
@@ -39,6 +41,7 @@ class PlayerRanking {
             .domain([this.dates[0], this.dates[this.dates.length - 1]])
             .range([0, this.vizWidth]);
         this.drawPlot();
+        this.updateTopPlayerLines(1952);
         // console.log(this.rankingData[1952][0]['elo']);
         // console.log(this.minElo, this.maxElo);
     }
@@ -124,24 +127,37 @@ class PlayerRanking {
     }
 
     updateTopPlayerLines(currentYear) {
+        console.log("hello");
         d3.select("#rankPlot").selectAll(".topPaths").remove();
         let plot = d3.select("#rankPlot");
         let that = this;
         let currYearTopPlayers = that.rankingData[currentYear];
-        if (currYearTopPlayers) {
-            let first = currYearTopPlayers[0];
-            let firstCareer = that.careerData[first.name];
-            plot.append("path")
-                .classed("topPaths", true)
-                .datum(firstCareer)
-                .attr("fill", "none")
-                .attr("stroke", "red")
-                .attr("stroke-width", 1.5)
-                .attr("d", d3.line()
-                    .x(function (d) { return that.scaleDates(d.date) })
-                    .y(function (d) { return that.scaleElo(d.elo) })
-                );
+        let i = 1;
+        while (!currYearTopPlayers) {
+            currYearTopPlayers = that.rankingData[currentYear - i];
+            i += 1;
         }
-
+        if (currYearTopPlayers) {
+            for (let i = 0; i < that.PLAYER_COUNT; i++) {
+                let first = currYearTopPlayers[i];
+                let firstCareer = that.careerData[first.name];
+                plot.append("path")
+                    .classed("topPaths", true)
+                    .datum(firstCareer)
+                    .attr("fill", "none")
+                    .attr("stroke", that.playerColors[i])
+                    .attr("stroke-width", 1.5)
+                    .attr("d", d3.line()
+                        .x(function (d) { return that.scaleDates(d.date) })
+                        .y(function (d) { return that.scaleElo(d.elo) })
+                );
+                plot.append("text")
+                    .text((i+1) + '. ' + first.name + '; Elo: ' + first.elo)
+                    .attr('class', 'topPaths')
+                    .attr("stroke", that.playerColors[i])
+                    .attr("font-size", "22px")
+                    .attr('transform', 'translate(30,'+ (260+i*25) +' )');
+            }
+        }
     }
 }
