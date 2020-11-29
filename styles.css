@@ -173,3 +173,11 @@ All slider css styles are from HW4
     font: 18px arial;
     font-weight: 600;
 }
+
+#gini .axisStart {
+    text-anchor: start;
+}
+
+#gini .axisEnd {
+    text-anchor: end;
+}
