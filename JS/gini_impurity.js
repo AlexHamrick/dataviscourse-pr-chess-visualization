@@ -8,7 +8,7 @@ class GiniImpurity {
             top: 20,
             right: 10,
             bottom: 20,
-            left: 30
+            left: 40
         }
 
         this.dimensions = {
@@ -17,11 +17,12 @@ class GiniImpurity {
         }
 
         // Set up x scale
-        let minXRange = 0.5
+        let minXRange = d3.min(data, d => d["GiniImpurity"])
+        console.log(minXRange)
         let maxXRange = 1
         this.xAxisScale = d3.scaleLinear()
             .domain([minXRange, maxXRange])
-            .range([0, this.dimensions.width])
+            .range([0 + this.margins.left, this.dimensions.width - this.margins.right])
 
         // Set up data
         this.data = data
@@ -61,16 +62,17 @@ class GiniImpurity {
         // The below scale is used only to create an easy to understand axis
         let mixednessScale = d3.scalePoint()
             .domain(["Less Mixed", "More Mixed"])
-            .range([0, this.dimensions.width]);
+            .range([0 + this.margins.left, this.dimensions.width - this.margins.right])
 
         giniPlotHistogram.append("g")
-            .attr("class", "gini-x-axis")
+            .attr("id", "gini-x-axis")
             .attr("transform", "translate(0," + this.dimensions.height + ")")
             .call(d3.axisBottom(mixednessScale))
 
         // Create y-axis
         giniPlotHistogram.append("g")
-            .attr("class", "gini-y-axis")
+            .attr("id", "gini-y-axis")
+            .attr("transform", "translate(" + this.margins.left + ", 0)")
             .call(d3.axisLeft(histYAxisScale))
 
         // TODO: Remove style and use only class

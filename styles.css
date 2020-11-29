@@ -168,4 +168,8 @@ All slider css styles are from HW4
     margin-left: 50px;
 }
 
-/* Info pane formatting */
+/* Gini impurity formatting */
+.gini-y-axis {
+    font-size: 10;
+    font-family: 'sans-serif';
+}
