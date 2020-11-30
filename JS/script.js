@@ -1,7 +1,5 @@
 loadData().then(data => {
-    // Chess Opening Results
-    let bestPlayers = data["BestPlayers"];
-    let chessOpenings = new ChessOpenings(bestPlayers);
+
 
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
@@ -16,6 +14,13 @@ loadData().then(data => {
     let topRankedPlayersData = data["TopRankedPlayers"];
     let playerCareerData = data["PlayerCareers"];
     let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData, updateOtherPlots);
+
+    // Chess Openings Table must be initialized after Player Ranking Plot because
+    // slider must be made prior to setting the 'on-click' handler for 'year on slider' radio button.
+    // Chess Opening Results
+    let bestPlayers = data["BestPlayers"];
+    let chessOpenings = new ChessOpenings(bestPlayers);
+
 });
 
 async function loadData() {

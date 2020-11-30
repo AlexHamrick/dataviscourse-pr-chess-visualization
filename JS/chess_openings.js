@@ -1,5 +1,5 @@
 class ChessOpenings {
-
+    // 29 Nov 2020 - Performance can be improved by pre-calculating game results in csv file
     constructor(data) {
         this.data = data;
 
@@ -62,13 +62,16 @@ class ChessOpenings {
             },
         ]
         this.attachSortHandlers();
+        this.attachRadioButtonHandlers();
         this.updateHeaders();
-        // this.drawTable(); // Uncomment to have all data be initially drawn, and comment-out the below
-
+        this.drawTable(); // Uncomment to have all data be initially drawn, and comment-out the below
+        d3.select("#chessOpeningsYear").text("1952-2007");
         // This code assumes the slider starts at 1952
         // The initial data is drawn according to 1952
         // A button will be clicked to show all data and table will not respond to slider change
-        this.updateYear(1952);
+        // let currentYear = d3.select(".slider").property("value");
+        // this.updateYear(currentYear);
+        // d3.select("#chessOpeningsYear").text(currentYear);
     }
 
     drawTable() {
@@ -133,24 +136,26 @@ class ChessOpenings {
     }
 
     updateYear(currentYear) {
-        d3.select("#chessOpeningsYear").text(currentYear);
-        d3.select("#openingsBody").selectAll("tr").remove();
-        let tempReducedData = new Map();
-        for (let d of this.data) {
-            if (d.date.substring(0,4) == currentYear) {
-                tempReducedData.set(d.eco, {
-                    "date": d.date.substring(0,4),
-                    "eco": d.eco,
-                    "games": 0,
-                    "white": 0,
-                    "draw": 0,
-                    "black": 0
-                });
-            }
-        };
+        let showAllData = d3.select("#radioAllData").property("checked");
+        if (!showAllData) {
+            d3.select("#chessOpeningsYear").text(currentYear);
+            d3.select("#openingsBody").selectAll("tr").remove();
+            let tempReducedData = new Map();
+            for (let d of this.data) {
+                if (d.date.substring(0,4) == currentYear) {
+                    tempReducedData.set(d.eco, {
+                        "date": d.date.substring(0,4),
+                        "eco": d.eco,
+                        "games": 0,
+                        "white": 0,
+                        "draw": 0,
+                        "black": 0
+                    });
+                }
+            };
 
-        this.data.forEach(function (d) {
-            let tempReducedDataVal = tempReducedData.get(d.eco);
+            this.data.forEach(function (d) {
+                let tempReducedDataVal = tempReducedData.get(d.eco);
                 if (d.date.substring(0,4) == currentYear) {
                     tempReducedDataVal['games'] += 1;
                     if (d.result == "1-0") {
@@ -161,15 +166,16 @@ class ChessOpenings {
                         tempReducedDataVal['black'] += 1;
                     }
                 }
-        });
+            });
 
-        this.currentData = [];
-        let that = this;
-        tempReducedData.forEach(function(value, key) {
-            that.currentData.push(value);
-        });
+            this.currentData = [];
+            let that = this;
+            tempReducedData.forEach(function(value, key) {
+                that.currentData.push(value);
+            });
 
-        this.drawTable();
+            this.drawTable();
+        }
     }
 
     updateHeaders() {
@@ -186,6 +192,9 @@ class ChessOpenings {
     }
 
     // sorts table according to header data
+    // Sorting is only done one 'one-level' for white/draw/black, for example
+    // if the user has chosen to sort based upon white, then
+    // no additional level of sorting is done based upon draw/black.
     sortTable(hdr) {
         let key = hdr.key;
         if (hdr.ascending) {
@@ -270,6 +279,22 @@ class ChessOpenings {
             hdr.ascending = !hdr.ascending;
             that.drawTable();
         });
+    }
+
+    attachRadioButtonHandlers() {
+        let allDataButton = d3.select("#radioAllData");
+        let that = this;
+        allDataButton.on("click", function (e,d) {
+            d3.select("#chessOpeningsYear").text("1952-2007");
+            that.currentData = that.reducdedData;
+            that.drawTable();
+        });
+
+        let sliderButton = d3.select("#radioSlider");
+        sliderButton.on("click", function(e,d) {
+            let currentYear = d3.select(".slider").property("value");
+            that.updateYear(currentYear);
+        })
     }
 
 }
