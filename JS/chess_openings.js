@@ -62,11 +62,6 @@ class ChessOpenings {
             },
         ]
         this.attachSortHandlers();
-        // Start sorted by most games
-        that.reducdedData.sort(function(a,b) {
-            return d3.descending(a.games, b.games);
-        });
-
         this.updateHeaders();
         this.drawTable();
     }
@@ -74,7 +69,12 @@ class ChessOpenings {
     drawTable() {
         d3.select("#openingsBody").selectAll("tr").remove();
         this.updateHeaders();
-
+        // sort table data according the header data before attaching to DOM
+        for (let hdr of this.headerData) {
+            if (hdr.sorted) {
+                this.sortTable(hdr);
+            }
+        }
         let rowSelection = d3.select("#openingsBody").selectAll("tr").data(this.currentData).join("tr");
         let tdSelection = rowSelection.selectAll("td").data(d => [d, d, d]).join("td");
         let openingCol = tdSelection.filter((d, i) => i === 0);
@@ -107,7 +107,13 @@ class ChessOpenings {
 
         let percentages = group.append("svg")
             .selectAll("text").data((d,i) => transpose[i]).join("text")
-            .text(d => `${Math.round(100*(d[1]-d[0])/d.data['games'])}%`)
+            .text(function(d) {
+                let percent = Math.round(100*(d[1]-d[0])/d.data['games']);
+                // text doesn't fit well when <= 6%, so only draw when > 6%.
+                if (percent > 6) {
+                    return `${percent}%`;
+                }
+            })
             .attr("x",d => 8 + xScale(d[0]/d.data['games']))
             .attr("y", 30)
             .attr("fill", function (d, i) {
@@ -124,8 +130,6 @@ class ChessOpenings {
     updateYear(currentYear) {
         d3.select("#chessOpeningsYear").text(currentYear);
         d3.select("#openingsBody").selectAll("tr").remove();
-        // this.updateHeaders();
-        ///
         let tempReducedData = new Map();
         for (let d of this.data) {
             if (d.date.substring(0,4) == currentYear) {
@@ -176,6 +180,69 @@ class ChessOpenings {
         icons.classed("fa-sort-down", d => !d.ascending);
     }
 
+    // sorts table according to header data
+    sortTable(hdr) {
+        let key = hdr.key;
+        if (hdr.ascending) {
+            switch (key) {
+                case ('thOpenings'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.ascending(a.eco, b.eco);
+                    });
+                    break;
+                case ('thGames'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.ascending(a.games, b.games);
+                    });
+                    break;
+                case ('thWhite'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.ascending(a.white/a.games, b.white/b.games);
+                    });
+                    break;
+                case ('thDraw'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.ascending(a.draw/a.games, b.draw/b.games);
+                    });
+                    break;
+                case ('thBlack'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.ascending(a.black/a.games, b.black/b.games);
+                    });
+                    break;
+            }
+        } else {
+            switch (key) {
+                case ('thOpenings'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.descending(a.eco, b.eco);
+                    });
+                    break;
+                case ('thGames'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.descending(a.games, b.games);
+                    });
+                    break;
+                case ('thWhite'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.descending(a.white/a.games, b.white/b.games);
+                    });
+                    break;
+                case ('thDraw'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.descending(a.draw/a.games, b.draw/b.games);
+                    });
+                    break;
+                case ('thBlack'):
+                    this.currentData.sort(function(a,b) {
+                        return d3.descending(a.black/a.games, b.black/b.games);
+                    });
+                    break;
+            }
+        }
+    }
+
+    // sorts table according to which sort button is clicked
     attachSortHandlers() {
         let headers = d3.select("#openingsHeaders")
             .selectAll(".sortable")
@@ -194,72 +261,7 @@ class ChessOpenings {
                 }
             });
             let hdr = that.headerData[index];
-            if (!hdr.ascending) {
-                that.currentData.sort(function(a,b) {
-                    return d3.ascending(a.eco, b.eco);
-                });
-            } else {
-                that.currentData.sort(function(a,b) {
-                    return d3.descending(a.eco, b.eco);
-                });
-            }
-            if (!hdr.ascending) {
-                switch (key) {
-                    case ('thOpenings'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.ascending(a.eco, b.eco);
-                        });
-                        break;
-                    case ('thGames'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.ascending(a.games, b.games);
-                        });
-                        break;
-                    case ('thWhite'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.ascending(a.white/a.games, b.white/b.games);
-                        });
-                        break;
-                    case ('thDraw'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.ascending(a.draw/a.games, b.draw/b.games);
-                        });
-                        break;
-                    case ('thBlack'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.ascending(a.black/a.games, b.black/b.games);
-                        });
-                        break;
-                }
-            } else {
-                switch (key) {
-                    case ('thOpenings'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.descending(a.eco, b.eco);
-                        });
-                        break;
-                    case ('thGames'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.descending(a.games, b.games);
-                        });
-                        break;
-                    case ('thWhite'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.descending(a.white/a.games, b.white/b.games);
-                        });
-                        break;
-                    case ('thDraw'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.descending(a.draw/a.games, b.draw/b.games);
-                        });
-                        break;
-                    case ('thBlack'):
-                        that.currentData.sort(function(a,b) {
-                            return d3.descending(a.black/a.games, b.black/b.games);
-                        });
-                        break;
-                }
-            }
+            that.sortTable(hdr);
             hdr.ascending = !hdr.ascending;
             that.drawTable();
         });
