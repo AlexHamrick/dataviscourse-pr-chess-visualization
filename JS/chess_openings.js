@@ -63,7 +63,12 @@ class ChessOpenings {
         ]
         this.attachSortHandlers();
         this.updateHeaders();
-        this.drawTable();
+        // this.drawTable(); // Uncomment to have all data be initially drawn, and comment-out the below
+
+        // This code assumes the slider starts at 1952
+        // The initial data is drawn according to 1952
+        // A button will be clicked to show all data and table will not respond to slider change
+        this.updateYear(1952);
     }
 
     drawTable() {
