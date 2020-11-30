@@ -130,7 +130,6 @@ class PlayerRanking {
     }
 
     updateTopPlayerLines(currentYear) {
-        console.log("hello");
         d3.select("#rankPlot").selectAll(".topPaths").remove();
         let plot = d3.select("#rankPlot");
         let that = this;
