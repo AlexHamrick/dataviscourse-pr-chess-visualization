@@ -3,36 +3,37 @@ class ChessOpenings {
     constructor(data) {
         this.data = data;
 
-        let tempReducedData = new Map();
+        let tempAllYearsData = new Map();
         for (let d of this.data) {
-            tempReducedData.set(d.eco, {
-                    "date": d.date.substring(0,4),
-                    "eco": d.eco,
-                    "games": 0,
-                    "white": 0,
-                    "draw": 0,
-                    "black": 0
-                });
-        };
+            tempAllYearsData.set(d.eco, {
+                "year": d.date.substring(0, 4),
+                "eco": d.eco,
+                "games": 0,
+                "white": 0,
+                "draw": 0,
+                "black": 0
+            });
+        }
 
-        this.data.forEach(function (d) {
-            let tempReducedDataVal = tempReducedData.get(d.eco);
-            tempReducedDataVal['games'] += 1;
+        for (let d of this.data) {
+            let tempAllYearsDataVal = tempAllYearsData.get(d.eco);
+            tempAllYearsDataVal['games'] += 1;
             if (d.result == "1-0") {
-                tempReducedDataVal['white'] += 1;
+                tempAllYearsDataVal['white'] += 1;
             } else if (d.result == "1/2-1/2") {
-                tempReducedDataVal['draw'] += 1;
+                tempAllYearsDataVal['draw'] += 1;
             } else {
-                tempReducedDataVal['black'] += 1;
+                tempAllYearsDataVal['black'] += 1;
             }
-        });
+        }
 
-        this.reducdedData = [];
+        // Find a better way to get the data in the right format for d3.
+        this.allYearsData = [];
         let that = this;
-        tempReducedData.forEach(function(value, key) {
-            that.reducdedData.push(value);
+        tempAllYearsData.forEach(function (value, key) {
+            that.allYearsData.push(value);
         });
-        this.currentData = [...this.reducdedData];
+        this.currentData = [...this.allYearsData];
 
         this.headerData = [
             {
@@ -61,47 +62,87 @@ class ChessOpenings {
                 key: 'thBlack'
             },
         ]
-        this.attachSortHandlers();
+
         this.attachRadioButtonHandlers();
+        this.attachSortHandlers();
+        // draws initial down-arrow sorting symbol
         this.updateHeaders();
-        this.drawTable(); // Uncomment to have all data be initially drawn, and comment-out the below
-        d3.select("#chessOpeningsYear").text("1952-2007");
-        // This code assumes the slider starts at 1952
-        // The initial data is drawn according to 1952
-        // A button will be clicked to show all data and table will not respond to slider change
-        // let currentYear = d3.select(".slider").property("value");
-        // this.updateYear(currentYear);
-        // d3.select("#chessOpeningsYear").text(currentYear);
+        this.drawTable();
+
+        // Initialize chess openings year text
+        let allDataButton = d3.select("#radioAllData");
+        if (allDataButton.property("checked")) {
+            d3.select("#chessOpeningsYear").text("1952-2007");
+        } else {
+            let currentYear = d3.select(".slider").property("value");
+            d3.select("#chessOpeningsYear").text(currentYear);
+        }
     }
 
+    // Attaches handlers for buttons: ECO, Games, White, Draw, and Black
+    // Updates the headerData according to which button is pressed, then draws table
+    attachSortHandlers() {
+        let headers = d3.select("#openingsHeaders")
+            .selectAll(".sortable")
+            .data(this.headerData);
+        let that = this;
+        // e == event, d == thing you clicked
+        headers.on("click", function (e, d) {
+            let key = d.key;
+            that.headerData.forEach(function (d) {
+                if (d.key == key) {
+                    d.sorted = true;
+                    d.ascending = !d.ascending;
+                } else {
+                    d.sorted = false;
+                }
+            });
+            that.updateHeaders();
+            that.drawTable();
+        });
+    }
+
+    // Attaches handlers for buttons: All years and Years on slider
+    attachRadioButtonHandlers() {
+        let allDataButton = d3.select("#radioAllData");
+        let that = this;
+        // e == event, d == thing you clicked
+        allDataButton.on("click", function (e, d) {
+            d3.select("#chessOpeningsYear").text("1952-2007");
+            that.currentData = that.allYearsData;
+            that.drawTable();
+        });
+
+        let sliderButton = d3.select("#radioSlider");
+        sliderButton.on("click", function (e, d) {
+            let currentYear = d3.select(".slider").property("value");
+            that.updateYear(currentYear);
+        });
+    }
+
+    // Removes any previous existing rows and draws the table
     drawTable() {
         d3.select("#openingsBody").selectAll("tr").remove();
-        this.updateHeaders();
-        // sort table data according the header data before attaching to DOM
-        for (let hdr of this.headerData) {
-            if (hdr.sorted) {
-                this.sortTable(hdr);
-            }
-        }
+        this.sortTable();
         let rowSelection = d3.select("#openingsBody").selectAll("tr").data(this.currentData).join("tr");
         let tdSelection = rowSelection.selectAll("td").data(d => [d, d, d]).join("td");
         let openingCol = tdSelection.filter((d, i) => i === 0);
         openingCol.text(d => d.eco);
         let gamesCol = tdSelection.filter((d, i) => i === 1);
         gamesCol.text(d => d.games);
-        let resultCol = tdSelection.filter((d,i) => i === 2);
+        let resultCol = tdSelection.filter((d, i) => i === 2);
         let series = d3.stack().keys(["white", "draw", "black"])(this.currentData);
         let transpose = d3.transpose(series);
-        let xScale = d3.scaleLinear().domain([0,1]).range([0,400]);
-        let svg = resultCol.append("svg").attr("width",410).attr("height", 50);
+        let xScale = d3.scaleLinear().domain([0, 1]).range([0, 400]);
+        let svg = resultCol.append("svg").attr("width", 410).attr("height", 50);
         let group = svg.append("g");
         let bars = group
-            .selectAll("rect").data((d,i) => transpose[i]).join("rect")
-            .attr("x",d => xScale(d[0]/d.data['games']))
+            .selectAll("rect").data((d, i) => transpose[i]).join("rect")
+            .attr("x", d => xScale(d[0] / d.data['games']))
             .attr("y", 10)
-            .attr("width", d => xScale((d[1]-d[0])/d.data['games']))
+            .attr("width", d => xScale((d[1] - d[0]) / d.data['games']))
             .attr("height", 30)
-            .attr("fill", function (d,i) {
+            .attr("fill", function (d, i) {
                 if (i == 0) {
                     return 'white';
                 } else if (i == 1) {
@@ -114,15 +155,15 @@ class ChessOpenings {
             .attr("transform", "translate(5,0)");
 
         let percentages = group.append("svg")
-            .selectAll("text").data((d,i) => transpose[i]).join("text")
-            .text(function(d) {
-                let percent = Math.round(100*(d[1]-d[0])/d.data['games']);
+            .selectAll("text").data((d, i) => transpose[i]).join("text")
+            .text(function (d) {
+                let percent = Math.round(100 * (d[1] - d[0]) / d.data['games']);
                 // text doesn't fit well when <= 6%, so only draw when > 6%.
                 if (percent > 6) {
                     return `${percent}%`;
                 }
             })
-            .attr("x",d => 8 + xScale(d[0]/d.data['games']))
+            .attr("x", d => 8 + xScale(d[0] / d.data['games']))
             .attr("y", 30)
             .attr("fill", function (d, i) {
                 if (i == 0) {
@@ -135,6 +176,8 @@ class ChessOpenings {
             });
     }
 
+    // Calculates the table data for the current year on run-time and updates this.currentData.
+    // After this, draws the table
     updateYear(currentYear) {
         let showAllData = d3.select("#radioAllData").property("checked");
         if (!showAllData) {
@@ -142,9 +185,9 @@ class ChessOpenings {
             d3.select("#openingsBody").selectAll("tr").remove();
             let tempReducedData = new Map();
             for (let d of this.data) {
-                if (d.date.substring(0,4) == currentYear) {
+                if (d.date.substring(0, 4) == currentYear) {
                     tempReducedData.set(d.eco, {
-                        "date": d.date.substring(0,4),
+                        "year": d.date.substring(0, 4),
                         "eco": d.eco,
                         "games": 0,
                         "white": 0,
@@ -152,11 +195,11 @@ class ChessOpenings {
                         "black": 0
                     });
                 }
-            };
+            }
 
-            this.data.forEach(function (d) {
+            for (let d of this.data) {
                 let tempReducedDataVal = tempReducedData.get(d.eco);
-                if (d.date.substring(0,4) == currentYear) {
+                if (d.date.substring(0, 4) == currentYear) {
                     tempReducedDataVal['games'] += 1;
                     if (d.result == "1-0") {
                         tempReducedDataVal['white'] += 1;
@@ -166,11 +209,11 @@ class ChessOpenings {
                         tempReducedDataVal['black'] += 1;
                     }
                 }
-            });
+            }
 
             this.currentData = [];
             let that = this;
-            tempReducedData.forEach(function(value, key) {
+            tempReducedData.forEach(function (value, key) {
                 that.currentData.push(value);
             });
 
@@ -178,6 +221,8 @@ class ChessOpenings {
         }
     }
 
+    // Updates data tied to #openingsHeaders to current this.headerData and
+    // updates the up-arrow and down-arrow icons for buttons: ECO, Games, White, Draw, and Black
     updateHeaders() {
         let openingsHeaders = d3.select("#openingsHeaders")
             .selectAll(".sortable")
@@ -191,110 +236,77 @@ class ChessOpenings {
         icons.classed("fa-sort-down", d => !d.ascending);
     }
 
-    // sorts table according to header data
+
+    // Sorts table according to header data
     // Sorting is only done one 'one-level' for white/draw/black, for example
     // if the user has chosen to sort based upon white, then
     // no additional level of sorting is done based upon draw/black.
-    sortTable(hdr) {
+    sortTable() {
+        let hdr = null;
+        for (let val of this.headerData) {
+            if (val.sorted) {
+                hdr = val;
+            }
+        }
+
         let key = hdr.key;
         if (hdr.ascending) {
             switch (key) {
                 case ('thOpenings'):
-                    this.currentData.sort(function(a,b) {
+                    this.currentData.sort(function (a, b) {
                         return d3.ascending(a.eco, b.eco);
                     });
                     break;
                 case ('thGames'):
-                    this.currentData.sort(function(a,b) {
+                    this.currentData.sort(function (a, b) {
                         return d3.ascending(a.games, b.games);
                     });
                     break;
                 case ('thWhite'):
-                    this.currentData.sort(function(a,b) {
-                        return d3.ascending(a.white/a.games, b.white/b.games);
+                    this.currentData.sort(function (a, b) {
+                        return d3.ascending(a.white / a.games, b.white / b.games);
                     });
                     break;
                 case ('thDraw'):
-                    this.currentData.sort(function(a,b) {
-                        return d3.ascending(a.draw/a.games, b.draw/b.games);
+                    this.currentData.sort(function (a, b) {
+                        return d3.ascending(a.draw / a.games, b.draw / b.games);
                     });
                     break;
                 case ('thBlack'):
-                    this.currentData.sort(function(a,b) {
-                        return d3.ascending(a.black/a.games, b.black/b.games);
+                    this.currentData.sort(function (a, b) {
+                        return d3.ascending(a.black / a.games, b.black / b.games);
                     });
                     break;
             }
         } else {
             switch (key) {
                 case ('thOpenings'):
-                    this.currentData.sort(function(a,b) {
+                    this.currentData.sort(function (a, b) {
                         return d3.descending(a.eco, b.eco);
                     });
                     break;
                 case ('thGames'):
-                    this.currentData.sort(function(a,b) {
+                    this.currentData.sort(function (a, b) {
                         return d3.descending(a.games, b.games);
                     });
                     break;
                 case ('thWhite'):
-                    this.currentData.sort(function(a,b) {
-                        return d3.descending(a.white/a.games, b.white/b.games);
+                    this.currentData.sort(function (a, b) {
+                        return d3.descending(a.white / a.games, b.white / b.games);
                     });
                     break;
                 case ('thDraw'):
-                    this.currentData.sort(function(a,b) {
-                        return d3.descending(a.draw/a.games, b.draw/b.games);
+                    this.currentData.sort(function (a, b) {
+                        return d3.descending(a.draw / a.games, b.draw / b.games);
                     });
                     break;
                 case ('thBlack'):
-                    this.currentData.sort(function(a,b) {
-                        return d3.descending(a.black/a.games, b.black/b.games);
+                    this.currentData.sort(function (a, b) {
+                        return d3.descending(a.black / a.games, b.black / b.games);
                     });
                     break;
             }
         }
-    }
-
-    // sorts table according to which sort button is clicked
-    attachSortHandlers() {
-        let headers = d3.select("#openingsHeaders")
-            .selectAll(".sortable")
-            .data(this.headerData);
-        let that = this;
-        // e == event, d == thing you clicked
-        headers.on("click", function (e,d) {
-          let key = d.key;
-            let index = -1;
-            that.headerData.forEach(function(d,i) {
-                if (d.key == key) {
-                    index = i;
-                    d.sorted = true;
-                } else {
-                    d.sorted = false;
-                }
-            });
-            let hdr = that.headerData[index];
-            that.sortTable(hdr);
-            hdr.ascending = !hdr.ascending;
-            that.drawTable();
-        });
-    }
-
-    attachRadioButtonHandlers() {
-        let allDataButton = d3.select("#radioAllData");
-        let that = this;
-        allDataButton.on("click", function (e,d) {
-            d3.select("#chessOpeningsYear").text("1952-2007");
-            that.currentData = that.reducdedData;
-            that.drawTable();
-        });
-
-        let sliderButton = d3.select("#radioSlider");
-        sliderButton.on("click", function(e,d) {
-            let currentYear = d3.select(".slider").property("value");
-            that.updateYear(currentYear);
-        })
     }
 
 }
