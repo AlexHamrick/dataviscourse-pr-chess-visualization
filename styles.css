@@ -8,6 +8,18 @@ h1, h2 {
     justify-items: center;
 }
 
+#definitionsDiv {
+    font-size: 18px;
+}
+
+label {
+    font-size: 18px;
+}
+
+#chessOpeningsYear {
+    color: darkblue;
+}
+
 #openingsDiv {
     width: 700px;
     height: 875px;

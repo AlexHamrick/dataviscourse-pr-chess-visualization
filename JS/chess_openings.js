@@ -1,7 +1,11 @@
 class ChessOpenings {
     // 29 Nov 2020 - Performance can be improved by pre-calculating game results in csv file
-    constructor(data) {
+    constructor(data, allEco) {
         this.data = data;
+        this.ecoToOpening = new Map();
+        for (let d of allEco) {
+            this.ecoToOpening.set(d.eco, d.opening);
+        }
 
         let tempAllYearsData = new Map();
         for (let d of this.data) {
@@ -137,8 +141,8 @@ class ChessOpenings {
         let svg = resultCol.append("svg").attr("width", 410).attr("height", 50);
         let group = svg.append("g");
         let bars = group
-            .selectAll("rect").data((d, i) => transpose[i]).join("rect")
-            .attr("x", d => xScale(d[0] / d.data['games']))
+            .selectAll("rect").data((d, i) => transpose[i]).join("rect");
+        bars.attr("x", d => xScale(d[0] / d.data['games']))
             .attr("y", 10)
             .attr("width", d => xScale((d[1] - d[0]) / d.data['games']))
             .attr("height", 30)
@@ -174,6 +178,17 @@ class ChessOpenings {
                     return "white";
                 }
             });
+
+        let that = this;
+        rowSelection.on("mouseenter", function() {
+            let tooltip = svg.selectAll("title").data(d => [d]).join("title")
+                .text(function (d) {
+                    return "Opening: " + that.ecoToOpening.get(d.eco) + "\n" +
+                    "White:  " + d.white + "\n" +
+                        "Draw:   " + d.draw + "\n" +
+                        "Black:   " + d.black + "\n";
+                });
+        })
     }
 
     // Calculates the table data for the current year on run-time and updates this.currentData.

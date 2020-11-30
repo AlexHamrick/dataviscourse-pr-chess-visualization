@@ -19,7 +19,9 @@ loadData().then(data => {
     // slider must be made prior to setting the 'on-click' handler for 'year on slider' radio button.
     // Chess Opening Results
     let bestPlayers = data["BestPlayers"];
-    let chessOpenings = new ChessOpenings(bestPlayers);
+    let allEco = data["allEco"];
+
+    let chessOpenings = new ChessOpenings(bestPlayers, allEco);
 
 });
 
@@ -38,6 +40,43 @@ async function loadData() {
             decade: +d.Decade,
         };
     });
+
+    let aECOPath = 'Data/a.tsv';
+    let aEco = await d3.dsv('\t', aECOPath, function (d) {
+        return {
+            eco: d.eco,
+            opening: d.name
+        };
+    });
+    let bECOPath = 'Data/b.tsv';
+    let bEco = await d3.dsv('\t', bECOPath, function (d) {
+        return {
+            eco: d.eco,
+            opening: d.name
+        };
+    });
+    let cECOPath = 'Data/c.tsv';
+    let cEco = await d3.dsv('\t', cECOPath, function (d) {
+        return {
+            eco: d.eco,
+            opening: d.name
+        };
+    });
+    let dECOPath = 'Data/d.tsv';
+    let dEco = await d3.dsv('\t', dECOPath, function (d) {
+        return {
+            eco: d.eco,
+            opening: d.name
+        };
+    });
+    let eECOPath = 'Data/e.tsv';
+    let eEco = await d3.dsv('\t', eECOPath, function (d) {
+        return {
+            eco: d.eco,
+            opening: d.name
+        };
+    });
+    let allEco = d3.merge([aEco,bEco,cEco,dEco,eEco]);
 
     // Load data for Gini Impurity Results
     let giniImpuritiesPath = 'Data/GiniImpurity.csv';
@@ -73,6 +112,7 @@ async function loadData() {
         BestPlayers: bestPlayers,
         GiniImpurites: giniImpurites,
         TopRankedPlayers: topPlayers,
-        PlayerCareers: playerCareers
+        PlayerCareers: playerCareers,
+        allEco: allEco
     };
 }
