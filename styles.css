@@ -131,7 +131,7 @@ All slider css styles are from HW4
 
 .slider {
     -webkit-appearance: none;
-    width: 600px;
+    width: 615px;
     height: 15px;
     border-radius: 5px;
     background: #d3d3d3;
@@ -176,7 +176,7 @@ All slider css styles are from HW4
 .slider-wrap {
     display: inline-block;
     float: left;
-    width: 600px;
+    width: 620px;
     margin-left: 50px;
 }
 
@@ -215,4 +215,10 @@ All slider css styles are from HW4
     stroke: #570057;
     stroke-width: 2.2;
     stroke-linejoin: round;
+}
+
+#legend {
+    font: 2px arial;
+    font-weight: 600;
+    margin-left:80px;
 }

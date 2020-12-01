@@ -4,9 +4,9 @@ class PlayerRanking {
         this.topPlayerName = ""
         ////////////////
         this.updateOtherViews = updateOtherViews;
-        this.playersPerYear = 10;
         this.rankingData = {};
         this.careerData = {};
+        this.currentYear = 1952;
         for (let i = 0; i < rankingData.length; i++) {
             let date = rankingData[i]['date'];
             if (!(date in this.rankingData)) {
@@ -23,7 +23,7 @@ class PlayerRanking {
             this.careerData[name].push(careerData[i])
         }
         this.PLAYER_COUNT = 3;
-        this.playerColors = [ "red", "blue", "green"];
+        this.playerColors = [ "red", "blue", "green", "cyan", "purple", "orange","lime", "pink", "brown", "maroon"];
         // console.log('rankingData', this.rankingData);
         // console.log('careerData', this.careerData);
         this.minYear = rankingData[0]['date'];
@@ -31,10 +31,12 @@ class PlayerRanking {
         let elos = careerData.map(d => d.elo)
         // console.log('elos', elos)
         this.maxElo = d3.max(elos);
-        this.minElo = d3.min(elos);
+        //this.minElo = d3.min(elos);
+        this.minElo = 2000;
         this.margin = { top: 10, right: 30, bottom: 45, left: 75 };
-        this.vizWidth = 700-this.margin.left-this.margin.right;
+        this.vizWidth = 1050-this.margin.left-this.margin.right;
         this.vizHeight = 400-this.margin.top-this.margin.bottom;
+        this.legendWidth = 370;
         this.dates = [...new Set(rankingData.map(d => d.date))]
         // console.log('dates', this.dates);
         this.scaleElo = d3.scaleLinear()
@@ -42,7 +44,7 @@ class PlayerRanking {
             .range([this.vizHeight, 0]);
         this.scaleDates = d3.scaleLinear()
             .domain([this.dates[0], this.dates[this.dates.length - 1]])
-            .range([0, this.vizWidth]);
+            .range([0, this.vizWidth-this.legendWidth]);
         this.drawPlot();
         this.updateTopPlayerLines(1952);
         // console.log(this.rankingData[1952][0]['elo']);
@@ -82,7 +84,7 @@ class PlayerRanking {
             )
         plot.append("text")
             .attr("transform",
-                "translate(" + (this.vizWidth / 2) + " ," +
+                "translate(" + ((this.vizWidth-this.legendWidth) / 2) + " ," +
                 (this.vizHeight + this.margin.top + 35) + ")")
             .style("text-anchor", "middle")
             .text("Date")
@@ -126,10 +128,18 @@ class PlayerRanking {
             that.updateTopPlayerLines(currentYear);
             that.updateOtherViews(currentYear, that.topPlayerName);
         });
+        let legend = d3.select("#legend");
+        legend.attr("transform", "translate(30,0)");
+        let numSelect = d3.select("#playernum").property("value", that.PLAYER_COUNT);
+        numSelect.on("change", function () {
+            that.PLAYER_COUNT = this.value;
+            that.updateTopPlayerLines(that.currentYear);
+        });
         //*@@@@@@ The above code section is based off of HW4 @@@@@@//
     }
 
     updateTopPlayerLines(currentYear) {
+        this.currentYear = currentYear;
         d3.select("#rankPlot").selectAll(".topPaths").remove();
         let plot = d3.select("#rankPlot");
         let that = this;
@@ -158,7 +168,7 @@ class PlayerRanking {
                     .attr('class', 'topPaths')
                     .attr("stroke", that.playerColors[i])
                     .attr("font-size", "22px")
-                    .attr('transform', 'translate(30,'+ (260+i*25) +' )');
+                    .attr('transform', 'translate('+(that.vizWidth-that.legendWidth+20)+','+ (70+i*25) +' )');
 
                 /////////////////////
                 if(i == 0) {
@@ -167,5 +177,11 @@ class PlayerRanking {
                 /////////////////////
             }
         }
+        plot.append("text")
+            .text(currentYear)
+            .attr('class', 'topPaths')
+            .attr("font-size", "28px")
+            .attr("font-weight", "777")
+            .attr('transform', 'translate(' + (that.vizWidth - that.legendWidth + 60) + ',' + (30) + ' )');
     }
 }
