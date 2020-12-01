@@ -203,7 +203,7 @@ class ChessOpenings {
                 .style('opacity', 1);
             tooltip.html(that.tooltipRender(i))
                 .style('left', `${d.clientX + 20}px`)
-                .style('top', `${rect['y'] + rect['height']-15}px`);
+                .style('top', `${d.clientY+15}px`);
             
         });
         rowSelection.on('mouseleave', function (d, i) {
