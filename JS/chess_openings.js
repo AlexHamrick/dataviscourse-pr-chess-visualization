@@ -206,7 +206,7 @@ class ChessOpenings {
             let rect = d3.select(this).node().getBoundingClientRect();
             tooltip.transition()
                 .duration(200)
-                .style('opacity', 1);
+                .style('opacity', 0.97);
             tooltip.html(that.tooltipRender(i))
                 .style('left', `${d.clientX + 20}px`)
                 .style('top', `${rect['y'] + rect['height']-15}px`);
