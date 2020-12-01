@@ -188,6 +188,9 @@ class ChessOpenings {
         let that = this;
 
         d3.select("#openingsBody")
+            .select('div')
+            .data([null])
+            .enter()
             .append('div')
             .attr("class", "tooltip")
             .style("opacity", 0);
