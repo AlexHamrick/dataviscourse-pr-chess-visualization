@@ -197,13 +197,13 @@ class ChessOpenings {
             //            "Black:   " + d.black + "\n";
             //        return y;
             //    });
-            console.log(d);
+            let rect = d3.select(this).node().getBoundingClientRect();
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 1);
             tooltip.html(that.tooltipRender(i))
                 .style('left', `${d.clientX + 20}px`)
-                .style('top', `${d.clientY + 45}px`);
+                .style('top', `${rect['y'] + rect['height']-15}px`);
             
         });
         rowSelection.on('mouseleave', function (d, i) {
