@@ -222,3 +222,15 @@ All slider css styles are from HW4
     font-weight: 600;
     margin-left:80px;
 }
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    min-width: 60px;
+    height: 170px;
+    padding: 2px;
+    background: white;
+    stroke: gray;
+    border-radius: 8px;
+    pointer-events: none;
+}
