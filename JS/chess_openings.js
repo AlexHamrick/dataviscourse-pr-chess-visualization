@@ -218,10 +218,6 @@ class ChessOpenings {
             "<h4>" + "White:  " + d.white + "</h4>" +
             "<h4>" + "Draw:   " + d.draw + "</h4>" +
             "<h4>" + "Black:   " + d.black + "</h4>";
-        //let text = "<h3>" + data['phrase'] + "</h3>";
-        //text = text + "<h2>" + (data['position'] < 0 ? 'D ' : 'R +') + data['position'].toFixed(3) + "%</h2>";
-        //text = text + "<h2>In " + (parseInt(data['total']) * 2) + "% of speeches</h2>";
-        //return text;
     }
 
     // Calculates the table data for the current year on run-time and updates this.currentData.
