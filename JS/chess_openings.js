@@ -1,44 +1,50 @@
 class ChessOpenings {
     // 29 Nov 2020 - Performance can be improved by pre-calculating game results in csv file
-    constructor(data, allEco) {
+    constructor(data, allEco, gameResults) {
         this.data = data;
         this.ecoToOpening = new Map();
         for (let d of allEco) {
             this.ecoToOpening.set(d.eco, d.opening);
         }
+        this.gameResults = gameResults;
 
         let tempAllYearsData = new Map();
-        for (let d of this.data) {
-            tempAllYearsData.set(d.eco, {
-                "year": d.date.substring(0, 4),
-                "eco": d.eco,
-                "games": 0,
-                "white": 0,
-                "draw": 0,
-                "black": 0
-            });
-        }
-
-        for (let d of this.data) {
-            let tempAllYearsDataVal = tempAllYearsData.get(d.eco);
-            tempAllYearsDataVal['games'] += 1;
-            if (d.result == "1-0") {
-                tempAllYearsDataVal['white'] += 1;
-            } else if (d.result == "1/2-1/2") {
-                tempAllYearsDataVal['draw'] += 1;
+        for (let d of gameResults) {
+            if (tempAllYearsData.has(d.eco)) {
+                tempAllYearsData.get(d.eco)['games'] += d.games;
+                tempAllYearsData.get(d.eco)['white'] += d.white;
+                tempAllYearsData.get(d.eco)['draw'] += d.draw;
+                tempAllYearsData.get(d.eco)['black'] += d.black;
             } else {
-                tempAllYearsDataVal['black'] += 1;
+                tempAllYearsData.set(d.eco, {
+                    "eco": d.eco,
+                    "games": d.games,
+                    "white": d.white,
+                    "draw": d.draw,
+                    "black": d.black
+                });
             }
         }
+        this.allYearsData = Array.from(tempAllYearsData.values());
+        this.currentData = this.allYearsData;
 
-        // Find a better way to get the data in the right format for d3.
-        this.allYearsData = [];
-        let that = this;
-        tempAllYearsData.forEach(function (value, key) {
-            that.allYearsData.push(value);
-        });
-        this.currentData = [...this.allYearsData];
-
+        this.yearMap = new Map();
+        for (let d of this.gameResults) {
+            if (this.yearMap.has(d.year)) {
+                this.yearMap.get(d.year)
+                    .push({
+                        "year": d.year,
+                        "eco": d.eco,
+                        "games": d.games,
+                        "white": d.white,
+                        "draw": d.draw,
+                        "black": d.black
+                    })
+            } else {
+                this.yearMap.set(d.year, []);
+            }
+        }
+        
         this.headerData = [
             {
                 sorted: false,
@@ -76,7 +82,7 @@ class ChessOpenings {
         // Initialize chess openings year text
         let allDataButton = d3.select("#radioAllData");
         if (allDataButton.property("checked")) {
-            d3.select("#chessOpeningsYear").text("1952-2007");
+            d3.select("#chessOpeningsYear").text("1921-2007");
         } else {
             let currentYear = d3.select(".slider").property("value");
             d3.select("#chessOpeningsYear").text(currentYear);
@@ -112,7 +118,7 @@ class ChessOpenings {
         let that = this;
         // e == event, d == thing you clicked
         allDataButton.on("click", function (e, d) {
-            d3.select("#chessOpeningsYear").text("1952-2007");
+            d3.select("#chessOpeningsYear").text("1921-2007");
             that.currentData = that.allYearsData;
             that.drawTable();
         });
@@ -198,40 +204,7 @@ class ChessOpenings {
         if (!showAllData) {
             d3.select("#chessOpeningsYear").text(currentYear);
             d3.select("#openingsBody").selectAll("tr").remove();
-            let tempReducedData = new Map();
-            for (let d of this.data) {
-                if (d.date.substring(0, 4) == currentYear) {
-                    tempReducedData.set(d.eco, {
-                        "year": d.date.substring(0, 4),
-                        "eco": d.eco,
-                        "games": 0,
-                        "white": 0,
-                        "draw": 0,
-                        "black": 0
-                    });
-                }
-            }
-
-            for (let d of this.data) {
-                let tempReducedDataVal = tempReducedData.get(d.eco);
-                if (d.date.substring(0, 4) == currentYear) {
-                    tempReducedDataVal['games'] += 1;
-                    if (d.result == "1-0") {
-                        tempReducedDataVal['white'] += 1;
-                    } else if (d.result == "1/2-1/2") {
-                        tempReducedDataVal['draw'] += 1;
-                    } else {
-                        tempReducedDataVal['black'] += 1;
-                    }
-                }
-            }
-
-            this.currentData = [];
-            let that = this;
-            tempReducedData.forEach(function (value, key) {
-                that.currentData.push(value);
-            });
-
+            this.currentData = this.yearMap.get(currentYear)
             this.drawTable();
         }
     }
