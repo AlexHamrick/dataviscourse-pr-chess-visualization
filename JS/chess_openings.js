@@ -137,7 +137,7 @@ class ChessOpenings {
         let rowSelection = d3.select("#openingsBody").selectAll("tr").data(this.currentData).join("tr");
         let tdSelection = rowSelection.selectAll("td").data(d => [d, d, d]).join("td");
         let openingCol = tdSelection.filter((d, i) => i === 0);
-        openingCol.text(d => d.eco);
+        openingCol.text(d => d.eco).attr('class', 'eco');
         let gamesCol = tdSelection.filter((d, i) => i === 1);
         gamesCol.text(d => d.games);
         let resultCol = tdSelection.filter((d, i) => i === 2);
@@ -186,15 +186,44 @@ class ChessOpenings {
             });
 
         let that = this;
-        rowSelection.on("mouseenter", function() {
-            let tooltip = svg.selectAll("title").data(d => [d]).join("title")
-                .text(function (d) {
-                    return "Opening: " + that.ecoToOpening.get(d.eco) + "\n" +
-                    "White:  " + d.white + "\n" +
-                        "Draw:   " + d.draw + "\n" +
-                        "Black:   " + d.black + "\n";
-                });
-        })
+
+        d3.select("#openingsBody")
+            .append('div')
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        const tooltip = d3.select(".tooltip");
+        rowSelection.on("mouseenter", function (d, i) {
+            //console.log(svg.selectAll('title'));
+            //let tooltip = svg.selectAll("title").data(d => [d]).join("title")
+            //    .text(function (d) {
+            //        let y = "Opening: " + that.ecoToOpening.get(d.eco) + "\n" +
+            //        "White:  " + d.white + "\n" +
+            //            "Draw:   " + d.draw + "\n" +
+            //            "Black:   " + d.black + "\n";
+            //        return y;
+            //    });
+            let rect = d3.select(this).node().getBoundingClientRect();
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 1);
+            tooltip.html(that.tooltipRender(i))
+                .style('left', `${d.clientX + 20}px`)
+                .style('top', `${rect['y'] + rect['height']-15}px`);
+            
+        });
+        rowSelection.on('mouseleave', function (d, i) {
+            tooltip.transition()
+                .duration(500)
+                .style('opacity', 0);
+        });
+    }
+
+    tooltipRender(d) {
+        return "<h3>" +"Opening: " + this.ecoToOpening.get(d.eco) + "<\h3>" +
+            "<h4>" + "White:  " + d.white + "</h4>" +
+            "<h4>" + "Draw:   " + d.draw + "</h4>" +
+            "<h4>" + "Black:   " + d.black + "</h4>";
     }
 
     // Calculates the table data for the current year on run-time and updates this.currentData.

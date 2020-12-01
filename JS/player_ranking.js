@@ -34,7 +34,7 @@ class PlayerRanking {
         //this.minElo = d3.min(elos);
         this.minElo = 2000;
         this.margin = { top: 10, right: 30, bottom: 45, left: 75 };
-        this.vizWidth = 1050-this.margin.left-this.margin.right;
+        this.vizWidth = 1080-this.margin.left-this.margin.right;
         this.vizHeight = 400-this.margin.top-this.margin.bottom;
         this.legendWidth = 370;
         this.dates = [...new Set(rankingData.map(d => d.date))]
@@ -128,6 +128,8 @@ class PlayerRanking {
             that.updateTopPlayerLines(currentYear);
             that.updateOtherViews(currentYear, that.topPlayerName);
         });
+        
+        //*@@@@@@ The above code section is based off of HW4 @@@@@@//
         let legend = d3.select("#legend");
         legend.attr("transform", "translate(30,0)");
         let numSelect = d3.select("#playernum").property("value", that.PLAYER_COUNT);
@@ -135,7 +137,6 @@ class PlayerRanking {
             that.PLAYER_COUNT = this.value;
             that.updateTopPlayerLines(that.currentYear);
         });
-        //*@@@@@@ The above code section is based off of HW4 @@@@@@//
     }
 
     updateTopPlayerLines(currentYear) {
@@ -168,6 +169,13 @@ class PlayerRanking {
                             return that.scaleElo(e);
                         })
                 );
+                plot.append('circle')
+                    .classed("topPaths", true)
+                    .datum(first)
+                    .attr("cx", d => that.scaleDates(currentYear))
+                    .attr("cy", d => that.scaleElo(d.elo))
+                    .attr('r', 3)
+                    .attr('fill', that.playerColors[i]);
                 plot.append("text")
                     .text((i+1) + '. ' + first.name + '; Elo: ' + first.elo)
                     .attr('class', 'topPaths')
