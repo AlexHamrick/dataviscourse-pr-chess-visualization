@@ -161,7 +161,12 @@ class PlayerRanking {
                     .attr("stroke-width", 1.5)
                     .attr("d", d3.line()
                         .x(function (d) { return that.scaleDates(d.date) })
-                        .y(function (d) { return that.scaleElo(d.elo) })
+                        .y(function (d) {
+                            let e = d.elo;
+                            if (e < that.minElo)
+                                e = that.minElo;
+                            return that.scaleElo(e);
+                        })
                 );
                 plot.append("text")
                     .text((i+1) + '. ' + first.name + '; Elo: ' + first.elo)
