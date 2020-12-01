@@ -233,4 +233,5 @@ div.tooltip {
     stroke: gray;
     border-radius: 8px;
     pointer-events: none;
+    background-color: lightblue;
 }

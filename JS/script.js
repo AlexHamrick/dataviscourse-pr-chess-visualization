@@ -20,8 +20,8 @@ loadData().then(data => {
     // Chess Opening Results
     let bestPlayers = data["BestPlayers"];
     let allEco = data["allEco"];
-
-    let chessOpenings = new ChessOpenings(bestPlayers, allEco);
+    let gameResults = data["gameResults"];
+    let chessOpenings = new ChessOpenings(bestPlayers, allEco, gameResults);
 
 });
 
@@ -78,6 +78,18 @@ async function loadData() {
     });
     let allEco = d3.merge([aEco,bEco,cEco,dEco,eEco]);
 
+    let gameResultsPath = 'Data/ECO.csv';
+    let gameResults = await d3.dsv(';', gameResultsPath, function (d) {
+        return {
+            year: d.Year,
+            eco: d.ECO,
+            games: +d.Games,
+            white: +d.WhiteWins,
+            draw: +d.Draws,
+            black: +d.BlackWins
+        };
+    })
+
     // Load data for Gini Impurity Results
     let giniImpuritiesPath = 'Data/GiniImpurity.csv';
     let giniImpurites = await d3.dsv(';', giniImpuritiesPath, function (d) {
@@ -113,6 +125,7 @@ async function loadData() {
         GiniImpurites: giniImpurites,
         TopRankedPlayers: topPlayers,
         PlayerCareers: playerCareers,
-        allEco: allEco
+        allEco: allEco,
+        gameResults: gameResults
     };
 }
