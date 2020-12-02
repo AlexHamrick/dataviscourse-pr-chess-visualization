@@ -209,12 +209,14 @@ class ChessOpenings {
             //        return y;
             //    });
             let rect = d3.select(this).node().getBoundingClientRect();
+            //let coords = d3.mouse(this);
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 0.97);
             tooltip.html(that.tooltipRender(i))
-                .style('left', `${d.clientX + 20}px`)
-                .style('top', `${d.clientY+15}px`);
+                .style('left', `${(window.pageXOffset + rect['x']) + 400}px`)
+                .style('top', `${(window.pageYOffset + rect['y']) + 100}px`);
+            console.log(d);
 
         });
         rowSelection.on('mouseleave', function (d, i) {
