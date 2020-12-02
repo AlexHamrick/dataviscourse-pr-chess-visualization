@@ -126,7 +126,7 @@ class PlayerRanking {
             sliderText.attr("x", yearScale(currentYear))
             sliderText.text(currentYear);
             that.updateTopPlayerLines(currentYear);
-            that.updateOtherViews(currentYear, that.topPlayerName);
+            that.updateOtherViews(currentYear, that.topPlayerName, "red");
         });
         
         //*@@@@@@ The above code section is based off of HW4 @@@@@@//

@@ -3,13 +3,14 @@ loadData().then(data => {
     let giniImpurityData = data["GiniImpurites"]
     const giniImpurity = new GiniImpurity(giniImpurityData);
 
-    function updateOtherPlots(currentYear, selectedName) {
+    function updateOtherPlots(currentYear, selectedName, color) {
         chessOpenings.updateYear(currentYear);
         giniImpurity.drawHistogram(selectedName)
+        playerOpenings.drawPlot(selectedName, color);
 
     }
     let playerOpeningData = data['PlayerOpenings'];
-    let playerOpening = new PlayerOpening(playerOpeningData);
+    let playerOpenings = new PlayerOpening(playerOpeningData);
 
     // Top Players Results
     let topRankedPlayersData = data["TopRankedPlayers"];
