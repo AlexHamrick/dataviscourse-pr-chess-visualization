@@ -39,7 +39,7 @@ class PlayerOpening {
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
         plot.append("g")
             .attr('class', 'axis')
-            .call(d3.axisLeft(scaleY));
+            .call(d3.axisLeft(scaleY).tickFormat(d3.format(".1%")));
         //let parseYear = d3.timeParse("%Y")
         //plot.append("g").attr('transform', 'translate(0, ' + that.vizHeight + ')')
         //    .call(d3.axisBottom(that.scaleDates)
