@@ -9,8 +9,7 @@ loadData().then(data => {
         playerOpenings.drawPlot(selectedName, color);
 
     }
-    let playerOpeningData = data['PlayerOpenings'];
-    let playerOpenings = new PlayerOpening(playerOpeningData);
+
 
     // Top Players Results
     let topRankedPlayersData = data["TopRankedPlayers"];
@@ -25,6 +24,9 @@ loadData().then(data => {
     let gameResults = data["gameResults"];
     let chessOpenings = new ChessOpenings(bestPlayers, allEco, gameResults);
 
+
+    let playerOpeningData = data['PlayerOpenings'];
+    let playerOpenings = new PlayerOpening(playerOpeningData, allEco);
 });
 
 async function loadData() {

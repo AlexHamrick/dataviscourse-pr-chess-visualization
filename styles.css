@@ -272,9 +272,9 @@ All slider css styles are from HW4
 div.tooltip {
     position: absolute;
     text-align: center;
-    min-width: 60px;
+    min-width: 300px;
     /*max-width:500px;*/
-    height: 225px;
+    min-height: 200px;
     padding: 2px;
     background: white;
     stroke: gray;
