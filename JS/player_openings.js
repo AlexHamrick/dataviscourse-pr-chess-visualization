@@ -17,7 +17,7 @@ class PlayerOpening {
         }
         this.margin = { top: 10, right: 30, bottom: 65, left: 85 };
         this.vizWidth = 700 - this.margin.left - this.margin.right;
-        this.vizHeight = 420 - this.margin.top - this.margin.bottom;
+        this.vizHeight = 360 - this.margin.top - this.margin.bottom;
 
 
         this.drawPlot("Smyslov, Vassily", "red");

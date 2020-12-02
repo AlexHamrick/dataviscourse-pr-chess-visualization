@@ -36,7 +36,7 @@ class PlayerRanking {
         this.margin = { top: 10, right: 30, bottom: 55, left: 85 };
         this.legendWidth = 370;
         this.vizWidth = 1280 - this.margin.left - this.margin.right - this.legendWidth;
-        this.vizHeight = 480-this.margin.top-this.margin.bottom;
+        this.vizHeight = 420-this.margin.top-this.margin.bottom;
         
         this.dates = [...new Set(rankingData.map(d => d.date))]
         // console.log('dates', this.dates);
@@ -159,6 +159,7 @@ class PlayerRanking {
         }
         legend.append("h1")
             .attr('class', 'topPaths')
+            .style('margin', 0)
             .append('text')
             .text(currentYear)
             .attr("font-size", "28px")

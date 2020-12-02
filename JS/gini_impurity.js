@@ -10,7 +10,7 @@ class GiniImpurity {
 
         this.dimensions = {
             width: 600,
-            height: 350
+            height: 290
         }
 
         // Set up x scale
