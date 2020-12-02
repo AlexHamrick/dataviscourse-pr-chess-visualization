@@ -171,9 +171,9 @@ class ChessOpenings {
             .text(function (d) {
                 let percent = Math.round(100 * (d[1] - d[0]) / d.data['games']);
                 // text doesn't fit well when <= 6%, so only draw when > 6%.
-                if (percent > 6) {
+                //if (percent > 6) {
                     return `${percent}%`;
-                }
+                //}
             })
             .attr("x", d => 15 + xScale((d[1] - d[0]) / d.data['games']))
             .attr("y", (d, i) => 26 + i * (barHeight + 2))
