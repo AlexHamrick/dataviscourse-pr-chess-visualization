@@ -7,15 +7,9 @@ loadData().then(data => {
         chessOpenings.updateYear(currentYear);
         giniImpurity.drawHistogram(selectedName)
         playerOpenings.drawPlot(selectedName, color);
-
+        
     }
-
-
-    // Top Players Results
-    let topRankedPlayersData = data["TopRankedPlayers"];
-    let playerCareerData = data["PlayerCareers"];
-    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData, updateOtherPlots);
-
+    
     // Chess Openings Table must be initialized after Player Ranking Plot because
     // slider must be made prior to setting the 'on-click' handler for 'year on slider' radio button.
     // Chess Opening Results
@@ -27,6 +21,10 @@ loadData().then(data => {
 
     let playerOpeningData = data['PlayerOpenings'];
     let playerOpenings = new PlayerOpening(playerOpeningData, allEco);
+    // Top Players Results
+    let topRankedPlayersData = data["TopRankedPlayers"];
+    let playerCareerData = data["PlayerCareers"];
+    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData, updateOtherPlots);
 });
 
 async function loadData() {

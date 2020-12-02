@@ -12,7 +12,7 @@ class PlayerOpening {
             }
             this.openingsData[name].push(playerOpeningsData[i])
         }
-        this.margin = { top: 10, right: 30, bottom: 65, left: 75 };
+        this.margin = { top: 10, right: 30, bottom: 65, left: 85 };
         this.vizWidth = 700 - this.margin.left - this.margin.right;
         this.vizHeight = 420 - this.margin.top - this.margin.bottom;
 
@@ -38,6 +38,7 @@ class PlayerOpening {
             .attr('id', 'openingsChart')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
         plot.append("g")
+            .attr('class', 'axis')
             .call(d3.axisLeft(scaleY));
         //let parseYear = d3.timeParse("%Y")
         //plot.append("g").attr('transform', 'translate(0, ' + that.vizHeight + ')')
@@ -62,7 +63,7 @@ class PlayerOpening {
             .attr('class', 'axisLabel');
         plot.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 15 - this.margin.left)
+            .attr("y", 22 - this.margin.left)
             .attr("x", 0 - (this.vizHeight / 2))
             //.attr("dy", "1em")
             .style("text-anchor", "middle")

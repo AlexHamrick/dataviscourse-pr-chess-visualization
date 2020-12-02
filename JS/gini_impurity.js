@@ -2,10 +2,10 @@ class GiniImpurity {
     constructor(data) {
         // Set up dimensions and margins
         this.margins = {
-            top: 20,
+            top: 50,
             right: 10,
             bottom: 30,
-            left: 40
+            left: 50
         }
 
         this.dimensions = {

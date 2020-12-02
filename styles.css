@@ -15,6 +15,7 @@
 
 #opAndMix {
     display: flex;
+    grid-area: opAndMix;
 }
 
 /*
@@ -166,6 +167,9 @@ td {
     width: 700px;
 }
 
+#bestPlayersDiv h2{
+    width: 900px;
+}
 
 #playerRankings g {
     font: 25px arial;
@@ -237,9 +241,19 @@ All slider css styles are from HW4
     font: 25px arial;
 }
 
-#gini .axisLabel {
+.axis text {
+    font:17px arial;
+    font-weight: 400;
+}
+
+.axisLabel {
     font: 25px arial;
     font-weight: 600;
+}
+
+.axisLabel.opening {
+    font: 18px arial;
+    font-weight: 400;
 }
 
 #gini .axisStart {

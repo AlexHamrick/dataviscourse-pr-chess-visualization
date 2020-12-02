@@ -33,7 +33,7 @@ class PlayerRanking {
         this.maxElo = d3.max(elos);
         //this.minElo = d3.min(elos);
         this.minElo = 2000;
-        this.margin = { top: 10, right: 30, bottom: 45, left: 75 };
+        this.margin = { top: 10, right: 30, bottom: 55, left: 85 };
         this.vizWidth = 1280-this.margin.left-this.margin.right;
         this.vizHeight = 500-this.margin.top-this.margin.bottom;
         this.legendWidth = 370;
@@ -60,9 +60,12 @@ class PlayerRanking {
             .attr('id', 'rankPlot')
             .attr('transform', 'translate('+this.margin.left+','+this.margin.top+')')
         plot.append("g")
+            .attr('class', 'axis')
             .call(d3.axisLeft(that.scaleElo));
         let parseYear = d3.timeParse("%Y")
-        plot.append("g").attr('transform', 'translate(0, ' + that.vizHeight + ')')
+        plot.append("g")
+            .attr('class', 'axis')
+            .attr('transform', 'translate(0, ' + that.vizHeight + ')')
             .call(d3.axisBottom(that.scaleDates)
             .tickFormat(d3.format("d")));
 
@@ -92,7 +95,7 @@ class PlayerRanking {
 
         plot.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 15 - this.margin.left)
+            .attr("y", 25 - this.margin.left)
             .attr("x", 0 - (this.vizHeight / 2))
             //.attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -137,6 +140,8 @@ class PlayerRanking {
             that.PLAYER_COUNT = this.value;
             that.updateTopPlayerLines(that.currentYear);
         });
+
+        that.updateOtherViews(this.currentYear, "Smyslov, Vassily", "red");
     }
 
     updateTopPlayerLines(currentYear) {
