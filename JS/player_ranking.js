@@ -35,7 +35,7 @@ class PlayerRanking {
         this.minElo = 2000;
         this.margin = { top: 10, right: 30, bottom: 55, left: 85 };
         this.vizWidth = 1280-this.margin.left-this.margin.right;
-        this.vizHeight = 500-this.margin.top-this.margin.bottom;
+        this.vizHeight = 480-this.margin.top-this.margin.bottom;
         this.legendWidth = 370;
         this.dates = [...new Set(rankingData.map(d => d.date))]
         // console.log('dates', this.dates);
@@ -179,7 +179,7 @@ class PlayerRanking {
                     .datum(first)
                     .attr("cx", d => that.scaleDates(currentYear))
                     .attr("cy", d => that.scaleElo(d.elo))
-                    .attr('r', 3)
+                    .attr('r', 5)
                     .attr('fill', that.playerColors[i]);
                 plot.append("text")
                     .text((i+1) + '. ' + first.name + '; Elo: ' + first.elo)

@@ -47,6 +47,14 @@ chessOpeningsMainDiv
     display: block;
 }
 
+#activeYear-bar {
+    display: block;
+}
+
+#playersTitle {
+    display: block;
+}
+
 h1, h2, h3, h4 {
     text-align: center;
 }
@@ -187,7 +195,7 @@ All slider css styles are from HW4
 
 .slider {
     -webkit-appearance: none;
-    width: 615px;
+    width: 820px;
     height: 15px;
     border-radius: 5px;
     background: #d3d3d3;
