@@ -23,7 +23,7 @@ class GiniImpurity {
         // Set up data
         this.data = data
 
-        let numberOfBins = 60
+        let numberOfBins = 30
 
         let histogram = d3.histogram()
             .value(d => d["GiniImpurity"])
