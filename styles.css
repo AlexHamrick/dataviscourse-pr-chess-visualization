@@ -18,6 +18,18 @@
     grid-area: opAndMix;
 }
 
+#playerPlotArea {
+    display: flex;
+}
+
+#legendDiv button {
+    display: block;
+    border-radius: 2px;
+}
+
+#legendDiv {
+    width: 370px;
+}
 /*
 header
 definitionsDiv
@@ -155,6 +167,12 @@ td {
 .sortable:hover {
     background: steelblue;
     color: white;
+}
+
+.selectedPath {
+    /*paint-order: stroke fill;*/
+    stroke-width: 4;
+/*    stroke: black;*/
 }
 
 /*.sorting {*/
@@ -312,4 +330,8 @@ div.tooltip {
     background-color: lightblue;
     /*left: 300px;*/
     /*top: 1300px;*/
+}
+
+.topPaths {
+    pointer-events: all;
 }

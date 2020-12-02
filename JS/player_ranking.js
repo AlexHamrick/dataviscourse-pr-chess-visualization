@@ -34,9 +34,10 @@ class PlayerRanking {
         //this.minElo = d3.min(elos);
         this.minElo = 2000;
         this.margin = { top: 10, right: 30, bottom: 55, left: 85 };
-        this.vizWidth = 1280-this.margin.left-this.margin.right;
-        this.vizHeight = 480-this.margin.top-this.margin.bottom;
         this.legendWidth = 370;
+        this.vizWidth = 1280 - this.margin.left - this.margin.right - this.legendWidth;
+        this.vizHeight = 480-this.margin.top-this.margin.bottom;
+        
         this.dates = [...new Set(rankingData.map(d => d.date))]
         // console.log('dates', this.dates);
         this.scaleElo = d3.scaleLinear()
@@ -44,7 +45,7 @@ class PlayerRanking {
             .range([this.vizHeight, 0]);
         this.scaleDates = d3.scaleLinear()
             .domain([this.dates[0], this.dates[this.dates.length - 1]])
-            .range([0, this.vizWidth-this.legendWidth]);
+            .range([0, this.vizWidth]);
         this.drawPlot();
         this.updateTopPlayerLines(1952);
         // console.log(this.rankingData[1952][0]['elo']);
@@ -146,8 +147,9 @@ class PlayerRanking {
 
     updateTopPlayerLines(currentYear) {
         this.currentYear = currentYear;
-        d3.select("#rankPlot").selectAll(".topPaths").remove();
+        d3.select("#bestPlayersDiv").selectAll(".topPaths").remove();
         let plot = d3.select("#rankPlot");
+        let legend = d3.select('#legendDiv');
         let that = this;
         let currYearTopPlayers = that.rankingData[currentYear];
         let i = 1;
@@ -155,16 +157,24 @@ class PlayerRanking {
             currYearTopPlayers = that.rankingData[currentYear - i];
             i += 1;
         }
+        legend.append("h1")
+            .attr('class', 'topPaths')
+            .append('text')
+            .text(currentYear)
+            .attr("font-size", "28px")
+            .attr("font-weight", "777")
+            .attr('transform', 'translate(' + (120) + ',' + (30) + ' )');
         if (currYearTopPlayers) {
             for (let i = 0; i < that.PLAYER_COUNT; i++) {
                 let first = currYearTopPlayers[i];
                 let firstCareer = that.careerData[first.name];
                 plot.append("path")
                     .classed("topPaths", true)
+                    //.classed('selectedPath', () => i==0 ? true : false)
                     .datum(firstCareer)
                     .attr("fill", "none")
                     .attr("stroke", that.playerColors[i])
-                    .attr("stroke-width", 1.5)
+                    .attr("stroke-width", 2)
                     .attr("d", d3.line()
                         .x(function (d) { return that.scaleDates(d.date) })
                         .y(function (d) {
@@ -172,8 +182,13 @@ class PlayerRanking {
                             if (e < that.minElo)
                                 e = that.minElo;
                             return that.scaleElo(e);
-                        })
-                );
+                        }))
+                    .on('mouseover', function (d, i) {
+                            d3.select(this).classed('selectedPath', true);
+                    })
+                    .on('mouseleave', function (d, i) {
+                        d3.select(this).classed('selectedPath', false);
+                    });
                 plot.append('circle')
                     .classed("topPaths", true)
                     .datum(first)
@@ -181,12 +196,15 @@ class PlayerRanking {
                     .attr("cy", d => that.scaleElo(d.elo))
                     .attr('r', 5)
                     .attr('fill', that.playerColors[i]);
-                plot.append("text")
-                    .text((i+1) + '. ' + first.name + '; Elo: ' + first.elo)
+                legend.append('button')
                     .attr('class', 'topPaths')
+                    //.attr('transform', 'translate(' + /*(that.vizWidth - that.legendWidth + 20)*/0 + ',' + (0 + i * 25) + ' )')
+                    
+                    .style('color', that.playerColors[i])
                     .attr("stroke", that.playerColors[i])
-                    .attr("font-size", "22px")
-                    .attr('transform', 'translate('+(that.vizWidth-that.legendWidth+20)+','+ (70+i*25) +' )');
+                    .style("font-size", "22px")
+                    .text((i + 1) + '. ' + first.name + '; Elo: ' + first.elo)
+                    .on('click', ()=>console.log('hello'));
 
                 /////////////////////
                 if(i == 0) {
@@ -195,11 +213,6 @@ class PlayerRanking {
                 /////////////////////
             }
         }
-        plot.append("text")
-            .text(currentYear)
-            .attr('class', 'topPaths')
-            .attr("font-size", "28px")
-            .attr("font-weight", "777")
-            .attr('transform', 'translate(' + (that.vizWidth - that.legendWidth + 60) + ',' + (30) + ' )');
+       
     }
 }
