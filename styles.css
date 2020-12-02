@@ -10,6 +10,9 @@ h1, h2 {
 
 #definitionsDiv {
     font-size: 18px;
+    width: 700px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 label {
