@@ -1,6 +1,4 @@
 loadData().then(data => {
-
-
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
     const giniImpurity = new GiniImpurity(giniImpurityData);
@@ -8,7 +6,10 @@ loadData().then(data => {
     function updateOtherPlots(currentYear, selectedName) {
         chessOpenings.updateYear(currentYear);
         giniImpurity.drawHistogram(selectedName)
+
     }
+    let playerOpeningData = data['PlayerOpenings'];
+    let playerOpening = new PlayerOpening(playerOpeningData);
 
     // Top Players Results
     let topRankedPlayersData = data["TopRankedPlayers"];
@@ -101,6 +102,17 @@ async function loadData() {
         };
     });
 
+    // Load data for Player Openings
+    let playerOpeningsPath = 'Data/TopPlayerOpenings.csv';
+    let playerOpenings = await d3.dsv(';', playerOpeningsPath, function (d) {
+        return {
+            name: d.PlayerName,
+            eco: d.ECO,
+            count: d.count,
+            pct: d.pct
+        };
+    });
+
     // Load data for Best Players
     let topPlayersPath = 'Data/TopPlayersByYear.csv';
     let playerCareersPath = 'Data/TopPlayerCareers.csv';
@@ -126,6 +138,7 @@ async function loadData() {
         TopRankedPlayers: topPlayers,
         PlayerCareers: playerCareers,
         allEco: allEco,
+        PlayerOpenings: playerOpenings,
         gameResults: gameResults
     };
 }
