@@ -1,5 +1,8 @@
 class PlayerOpening {
     constructor(playerOpeningsData, allEco) {
+        console.log(playerOpeningsData);
+        let temp = playerOpeningsData.map(d => parseFloat(d.pct));
+        console.log(d3.max(temp));
         this.ecoToOpening = new Map();
         for (let d of allEco) {
             this.ecoToOpening.set(d.eco, d.opening);

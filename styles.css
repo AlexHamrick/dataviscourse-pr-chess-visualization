@@ -30,6 +30,10 @@
     border-radius: 2px;
 }
 
+#legendDiv button:focus {
+    background-color: darkgray;
+}
+
 #legendDiv {
     width: 370px;
 }
@@ -250,7 +254,7 @@ All slider css styles are from HW4
 }
 
 .slider-label svg {
-    width: 630px;
+    width: 850px;
     height: 35px;
 }
 
@@ -261,7 +265,7 @@ All slider css styles are from HW4
 .slider-wrap {
     display: inline-block;
     float: left;
-    width: 620px;
+    width: 820px;
     margin-left: 50px;
 }
 

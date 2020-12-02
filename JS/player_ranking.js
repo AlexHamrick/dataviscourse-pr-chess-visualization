@@ -104,7 +104,7 @@ class PlayerRanking {
             .attr('class', 'axisLabel');
 
         //*@@@@@@ The below code section is based off of HW4 @@@@@@//
-        let yearScale = d3.scaleLinear().domain([this.minYear, this.maxYear]).range([25, 600]);
+        let yearScale = d3.scaleLinear().domain([this.minYear, this.maxYear]).range([25, 820]);
 
         let yearSlider = d3.select('#activeYear-bar')
             .append('div').classed('slider-wrap', true)
@@ -182,13 +182,13 @@ class PlayerRanking {
                             if (e < that.minElo)
                                 e = that.minElo;
                             return that.scaleElo(e);
-                        }))
-                    .on('mouseover', function (d, i) {
-                            d3.select(this).classed('selectedPath', true);
-                    })
-                    .on('mouseleave', function (d, i) {
-                        d3.select(this).classed('selectedPath', false);
-                    });
+                        }));
+                    //.on('mouseover', function (d, i) {
+                    //        d3.select(this).classed('selectedPath', true);
+                    //})
+                    //.on('mouseleave', function (d, i) {
+                    //    d3.select(this).classed('selectedPath', false);
+                    //});
                 plot.append('circle')
                     .classed("topPaths", true)
                     .datum(first)
@@ -196,16 +196,14 @@ class PlayerRanking {
                     .attr("cy", d => that.scaleElo(d.elo))
                     .attr('r', 5)
                     .attr('fill', that.playerColors[i]);
-                legend.append('button')
+                let b = legend.append('button')
                     .attr('class', 'topPaths')
-                    //.attr('transform', 'translate(' + /*(that.vizWidth - that.legendWidth + 20)*/0 + ',' + (0 + i * 25) + ' )')
-                    
+                    .attr('id', 'button'+i)
                     .style('color', that.playerColors[i])
                     .attr("stroke", that.playerColors[i])
                     .style("font-size", "22px")
                     .text((i + 1) + '. ' + first.name + '; Elo: ' + first.elo)
-                    .on('click', ()=>console.log('hello'));
-
+                    .on('click', () => that.updateOtherViews(that.currentYear, first.name, that.playerColors[i]));
                 /////////////////////
                 if(i == 0) {
                     this.topPlayerName = first.name
@@ -213,6 +211,6 @@ class PlayerRanking {
                 /////////////////////
             }
         }
-       
+        document.getElementById("button0").focus();
     }
 }
