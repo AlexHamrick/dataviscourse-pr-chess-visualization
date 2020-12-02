@@ -41,7 +41,6 @@ Date;PlayerName;Elo
 2004;Akopian, Vladimir;2693
 2005;Akopian, Vladimir;2707
 2006;Akopian, Vladimir;2713
-2007;Anand, V;2786
 1984;Anand, Viswanathan;2345
 1985;Anand, Viswanathan;2385
 1986;Anand, Viswanathan;2420
@@ -65,6 +64,7 @@ Date;PlayerName;Elo
 2004;Anand, Viswanathan;2782
 2005;Anand, Viswanathan;2792
 2006;Anand, Viswanathan;2803
+2007;Anand, Viswanathan;2786
 1970;Andersson, Ulf;2535
 1971;Andersson, Ulf;2510
 1972;Andersson, Ulf;2535
@@ -102,7 +102,6 @@ Date;PlayerName;Elo
 2004;Andersson, Ulf;2580
 2005;Andersson, Ulf;2584
 2006;Andersson, Ulf;2565
-2007;Aronian, L;2759
 1994;Aronian, Levon;1995
 1995;Aronian, Levon;2330
 1996;Aronian, Levon;2390
@@ -116,6 +115,7 @@ Date;PlayerName;Elo
 2004;Aronian, Levon;2675
 2005;Aronian, Levon;2724
 2006;Aronian, Levon;2762
+2007;Aronian, Levon;2759
 1994;Attal, Maxence;2700
 2001;Attal, Maxence;1300
 1997;Azarov, Sergei;2115
@@ -837,7 +837,6 @@ Date;PlayerName;Elo
 2004;Huebner, Robert;2624
 2005;Huebner, Robert;2637
 2006;Huebner, Robert;2632
-2007;Ivanchuk, V;2762
 1984;Ivanchuk, Vassily;2390
 1986;Ivanchuk, Vassily;2475
 1987;Ivanchuk, Vassily;2660
@@ -860,6 +859,7 @@ Date;PlayerName;Elo
 2004;Ivanchuk, Vassily;2716
 2005;Ivanchuk, Vassily;2752
 2006;Ivanchuk, Vassily;2748
+2007;Ivanchuk, Vassily;2762
 1972;Ivanov, Alexander;2380
 1975;Ivanov, Alexander;2200
 1977;Ivanov, Alexander;2400
@@ -1109,7 +1109,6 @@ Date;PlayerName;Elo
 2004;Kortschnoj, Viktor;2601
 2005;Kortschnoj, Viktor;2620
 2006;Kortschnoj, Viktor;2608
-2007;Kramnik, V;2772
 1989;Kramnik, Vladimir;2490
 1990;Kramnik, Vladimir;2490
 1991;Kramnik, Vladimir;2490
@@ -1128,6 +1127,7 @@ Date;PlayerName;Elo
 2004;Kramnik, Vladimir;2777
 2005;Kramnik, Vladimir;2754
 2006;Kramnik, Vladimir;2743
+2007;Kramnik, Vladimir;2772
 1971;Larsen, Bent;2660
 1972;Larsen, Bent;2660
 1973;Larsen, Bent;2620
@@ -1162,7 +1162,6 @@ Date;PlayerName;Elo
 2002;Larsen, Bent;2486
 2003;Larsen, Bent;2470
 2004;Larsen, Bent;2470
-2007;Leko, P;2749
 1989;Leko, Peter;2600
 1990;Leko, Peter;2600
 1991;Leko, Peter;2385
@@ -1181,6 +1180,7 @@ Date;PlayerName;Elo
 2004;Leko, Peter;2741
 2005;Leko, Peter;2763
 2006;Leko, Peter;2741
+2007;Leko, Peter;2749
 1971;Ljubojevic, Ljubomir;2510
 1972;Ljubojevic, Ljubomir;2550
 1973;Ljubojevic, Ljubomir;2570
@@ -1217,8 +1217,8 @@ Date;PlayerName;Elo
 2004;Ljubojevic, Ljubomir;2569
 2005;Ljubojevic, Ljubomir;2565
 2006;Ljubojevic, Ljubomir;2565
-2006;Mamedyarov, S;2728
-2007;Mamedyarov, S;2757
+2006;Mamedyarov, Shakhriyar;2728
+2007;Mamedyarov, Shakhriyar;2757
 1954;Matanovic, Aleksandar;2515
 1956;Matanovic, Aleksandar;2515
 1958;Matanovic, Aleksandar;2515
@@ -1331,8 +1331,8 @@ Date;PlayerName;Elo
 1999;Miles, Anthony J;2609
 2000;Miles, Anthony J;2584
 2001;Miles, Anthony J;2565
-2006;Morozevich, A;2747
-2007;Morozevich, A;2762
+2006;Morozevich, Alexander;2747
+2007;Morozevich, Alexander;2762
 1992;Morozevich, Alexander;2415
 1993;Morozevich, Alexander;2545
 1994;Morozevich, Alexander;2605
@@ -1571,7 +1571,7 @@ Date;PlayerName;Elo
 2004;Portisch, Lajos;2573
 2005;Portisch, Lajos;2536
 2006;Portisch, Lajos;2533
-2007;Radjabov, T;2747
+2007;Radjabov, Teimour;2747
 1970;Ribli, Zoltan;2505
 1971;Ribli, Zoltan;2440
 1972;Ribli, Zoltan;2505
@@ -1919,7 +1919,6 @@ Date;PlayerName;Elo
 1971;Stein, Leonid;2620
 1972;Stein, Leonid;2620
 1973;Stein, Leonid;2620
-2007;Svidler, P;2736
 1990;Svidler, Peter;2430
 1991;Svidler, Peter;2480
 1992;Svidler, Peter;2465
@@ -1937,6 +1936,7 @@ Date;PlayerName;Elo
 2004;Svidler, Peter;2747
 2005;Svidler, Peter;2740
 2006;Svidler, Peter;2765
+2007;Svidler, Peter;2736
 1971;Taimanov, Mark E;2620
 1972;Taimanov, Mark E;2590
 1973;Taimanov, Mark E;2595
@@ -2032,7 +2032,6 @@ Date;PlayerName;Elo
 2004;Timman, Jan H;2602
 2005;Timman, Jan H;2630
 2006;Timman, Jan H;2630
-2007;Topalov, V;2783
 1988;Topalov, Veselin;2300
 1989;Topalov, Veselin;2460
 1990;Topalov, Veselin;2495
@@ -2052,6 +2051,7 @@ Date;PlayerName;Elo
 2004;Topalov, Veselin;2757
 2005;Topalov, Veselin;2788
 2006;Topalov, Veselin;2813
+2007;Topalov, Veselin;2783
 1956;Uhlmann, Wolfgang;2530
 1958;Uhlmann, Wolfgang;2530
 1964;Uhlmann, Wolfgang;2530
