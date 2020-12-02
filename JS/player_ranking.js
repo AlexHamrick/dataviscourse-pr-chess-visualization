@@ -88,7 +88,7 @@ class PlayerRanking {
             )
         plot.append("text")
             .attr("transform",
-                "translate(" + ((this.vizWidth-this.legendWidth) / 2) + " ," +
+                "translate(" + ((this.vizWidth) / 2) + " ," +
                 (this.vizHeight + this.margin.top + 35) + ")")
             .style("text-anchor", "middle")
             .text("Date")
