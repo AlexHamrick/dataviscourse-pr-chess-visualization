@@ -1,20 +1,15 @@
 loadData().then(data => {
-
-
     // Gini Impurity Results
     let giniImpurityData = data["GiniImpurites"]
     const giniImpurity = new GiniImpurity(giniImpurityData);
 
-    function updateOtherPlots(currentYear, selectedName) {
+    function updateOtherPlots(currentYear, selectedName, color) {
         chessOpenings.updateYear(currentYear);
         giniImpurity.drawHistogram(selectedName)
+        playerOpenings.drawPlot(selectedName, color);
+        
     }
-
-    // Top Players Results
-    let topRankedPlayersData = data["TopRankedPlayers"];
-    let playerCareerData = data["PlayerCareers"];
-    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData, updateOtherPlots);
-
+    
     // Chess Openings Table must be initialized after Player Ranking Plot because
     // slider must be made prior to setting the 'on-click' handler for 'year on slider' radio button.
     // Chess Opening Results
@@ -23,6 +18,13 @@ loadData().then(data => {
     let gameResults = data["gameResults"];
     let chessOpenings = new ChessOpenings(bestPlayers, allEco, gameResults);
 
+
+    let playerOpeningData = data['PlayerOpenings'];
+    let playerOpenings = new PlayerOpening(playerOpeningData, allEco);
+    // Top Players Results
+    let topRankedPlayersData = data["TopRankedPlayers"];
+    let playerCareerData = data["PlayerCareers"];
+    let playerRanking = new PlayerRanking(topRankedPlayersData, playerCareerData, updateOtherPlots);
 });
 
 async function loadData() {
@@ -101,6 +103,17 @@ async function loadData() {
         };
     });
 
+    // Load data for Player Openings
+    let playerOpeningsPath = 'Data/TopPlayerOpenings.csv';
+    let playerOpenings = await d3.dsv(';', playerOpeningsPath, function (d) {
+        return {
+            name: d.PlayerName,
+            eco: d.ECO,
+            count: d.count,
+            pct: d.pct
+        };
+    });
+
     // Load data for Best Players
     let topPlayersPath = 'Data/TopPlayersByYear.csv';
     let playerCareersPath = 'Data/TopPlayerCareers.csv';
@@ -126,6 +139,7 @@ async function loadData() {
         TopRankedPlayers: topPlayers,
         PlayerCareers: playerCareers,
         allEco: allEco,
+        PlayerOpenings: playerOpenings,
         gameResults: gameResults
     };
 }

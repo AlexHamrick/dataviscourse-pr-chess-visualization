@@ -4,30 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Chess Visualization</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" />
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="JS/script.js" async></script>
     <script src="JS/chess_openings.js"></script>
     <script src="JS/gini_impurity.js"></script>
     <script src="JS/player_ranking.js"></script>
+    <script src="JS/player_openings.js"></script>
 </head>
 
 <body>
+<div class="container">
     <div id="header">
-
-        <h1><i class="fas fa-chess-king"></i>   Chess Openings and ELOs   <i class="fas fa-chess-queen"></i></h1>
+        <h1><i class="fas fa-chess-king"></i> Chess Openings and ELOs <i class="fas fa-chess-queen"></i></h1>
     </div>
 
-    <div class="row">
-        <div>
-            <div id="processBookDiv">
-                <h2>Process Book</h2>
-                <a href="https://github.com/AlexHamrick/dataviscourse-pr-chess-visualization/blob/main/Process%20Book.pdf">Click here to see process book.</a>
-            </div>
 
-            <div id="definitionsDiv">
-                <h2>Background Information</h2>
+    <div id="definitionsDiv">
+        <h2>Background Information</h2>
+        <ul>
+            <li>Elo</li>
+            <ul>
+                <li>A rating system common to chess where the higher the score the better the player.</li>
+                <li>Every player starts with a score of 1,200 and the highest elo of all time is 2,882.</li>
+            </ul>
+            <li>ECO</li>
+            <ul>
+                <li>Stands for Encyclopedia of Chess Openings.</li>
+                <li>A system that classifies opening moves.</li>
+                <li>Divided into subcategories A-E.</li>
                 <ul>
                     <li>Elo:</li>
                     <ul>
@@ -56,84 +63,117 @@
                         </ul>
                     <li>These visualizations come from over 300 thousand games of the best players of all time.</li>
                 </ul>
-            </div>
-        </div>
+            </ul>
+            <li>"Mixedness"</li>
+            <ul>
+                <li>Here "Mixedness" is defined by using the Gini impurity score.</li>
+                <ul>
+                    <li><a href="https://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity">More
+                        information on Gini impurity</a></li>
+                </ul>
+            </ul>
+        </ul>
 
-        <div>
-            <h2>Video Explanation</h2>
-            <p style="color:blue">Embed YouTube video here.</p>
-        </div>
+        
 
+        <div id="processBookDiv">
+            <h2>Process Book</h2>
+            <a
+                    href="https://github.com/AlexHamrick/dataviscourse-pr-chess-visualization/blob/main/Process%20Book.pdf">Click
+                here to see process book.</a>
+        </div>
+    </div>
+    <div id="videoDiv">
+        <h2>Video Explanation</h2>
+        <p style="color:blue">Insert YouTube video link here.</p>
     </div>
 
-    <div class="row">
+    <div id="chessOpeningsMainDiv">
+        <h2>Chess Opening Results</h2>
+        <h2 id="chessOpeningsYear"></h2>
         <div>
-            <h2>Chess Opening Results</h2>
-            <h2 id="chessOpeningsYear"></h2>
-            <div>
-                <h3>Show Chess Opening Results For</h3>
-                <input type="radio" id="radioAllData" name="allButtons" checked>
-                <label for="radioAllData" name="allButtons">All Years</label>
-                <input type="radio" id="radioSlider" name="allButtons">
-                <label for="radioSlider">Year On Slider (below 'Top Players Over Time' graph)</label>
-            </div>
-
-
-            <div id="openingsDiv">
-                <table id="openings">
-                    <thead>
-
-                    <tr id="openingsHeaders">
-                        <th>
-                            <rect class="sortable">ECO <i class="fas no-display"></i></rect>
-                        </th>
-                        <th>
-                            <rect class="sortable">Games <i class="fas no-display"></i></rect>
-                        </th>
-                        <th>
-                            <rect class="sortable" id="sortTableByWhite">White <i class="fas no-display"></i></rect>
-                            <rect class="sortable" id="sortTableByDraw">Draw <i class="fas no-display"></i></rect>
-                            <rect class="sortable" id="sortTableByBlack">Black <i class="fas no-display"></i></rect>
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <h3>Click button below to sort</h3>
-                    <tbody id="openingsBody">
-
-                    </tbody>
-                </table>
-            </div>
+            <p>Show Chess Opening Results For</p>
+            <input type="radio" id="radioAllData" name="allButtons" checked>
+            <label for="radioAllData" name="allButtons">All Years</label>
+            <input type="radio" id="radioSlider" name="allButtons">
+            <label for="radioSlider">Year On Slider (below 'Top Players Over Time' graph)</label>
         </div>
 
 
+        <div id="openingsDiv">
+            <table id="openings">
+                <thead>
+
+                <tr id="openingsHeaders">
+                    <th>
+                        <rect class="sortable">ECO <i class="fas no-display"></i></rect>
+                    </th>
+                    <th>
+                        <rect class="sortable">Games <i class="fas no-display"></i></rect>
+                    </th>
+                    <th>
+                        <rect class="sortable" id="sortTableByWhite">White <i class="fas no-display"></i></rect>
+                        <rect class="sortable" id="sortTableByDraw">Draw <i class="fas no-display"></i></rect>
+                        <rect class="sortable" id="sortTableByBlack">Black <i class="fas no-display"></i></rect>
+                    </th>
+
+                </tr>
+                </thead>
+                <h3>Click button below to sort</h3>
+                <tbody id="openingsBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div id="bestPlayersDiv">
+        
+        <div>
+            <h2 id="playersTitle">Top Players Over Time</h2>
+        </div>
+        <div id="playerRankings">
+            
+            <div id="legend">
+                <label for="playernum">Number of Top Players Displayed: </label>
+                <select name="playernum" , id="playernum">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+        </div>
+        <svg id="best-players"></svg>
+        <div id="activeYear-bar"></div>
+    </div>
+    <div id="opAndMix">
+        <div id="bestPlayerOpenings">
+            <h2>Openings Frequency for Top Players</h2>
+            <h2 id="openingName"></h2>
+        </div>
+
+
+<<<<<<< HEAD
         <div>
             <h2>Diversity of Chess Openings for Top Players</h2>
+=======
+        <div id="mixednessDiv">
+            <h2>"Mixedness" of Chess Openings for Top Players</h2>
+            <h2></h2>
+>>>>>>> 5caedfcc93592041876d7122f78f0319f0700505
             <div id="gini">
-                <svg></svg>                
-            </div>
-
-            <div id="playerRankings">
-                <div>
-                    <h2>Top Players Over Time</h2>
-                </div>
-                <div id="legend">
-                    <label for="playernum">Number of Top Players Displayed: </label>
-                    <select name="playernum" , id="playernum">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                    </select>
-                </div>
-
-                <svg id="best-players"></svg>
-
-                <div id="activeYear-bar"></div>
+                <svg></svg>
             </div>
         </div>
     </div>
+
+
+
+</div>
 </body>
 
 </html>

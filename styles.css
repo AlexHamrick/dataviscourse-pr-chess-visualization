@@ -1,22 +1,80 @@
-h1, h2 {
+.container {
+    display: grid;
+    height: 100vh;
+    width: 90vw;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: 0.1fr 0.5fr 1fr 1fr;
+    grid-template-areas: 
+    "header header"
+    "definitionsDiv videoDiv"
+    "chessOpeningsMainDiv bestPlayersDiv"
+    "chessOpeningsMainDiv opAndMix";
+    column-gap: 0%;
+    justify-items: center;
+}
+
+#opAndMix {
+    display: flex;
+    grid-area: opAndMix;
+}
+
+/*
+header
+definitionsDiv
+mixednessDiv
+bestPlayersDiv
+bestPlayerOpenings
+chessOpeningsMainDiv
+*/
+#header {
+    grid-area: header;
+}
+
+#videoDiv {
+    grid-area: videoDiv;
+}
+
+#chessOpeningsMainDiv {
+    grid-area: chessOpeningsMainDiv;
+}
+
+#mixednessDiv {
+    grid-area: mixednessDiv;
+}
+
+#bestPlayersDiv {
+    grid-area: bestPlayersDiv;
+    display: block;
+}
+
+#activeYear-bar {
+    display: block;
+}
+
+#playersTitle {
+    display: block;
+}
+
+h1, h2, h3, h4 {
     text-align: center;
 }
 
 .row {
-    display : grid;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
 }
 
 #definitionsDiv {
-    font-size: 18px;
-    width: 700px;
-    margin-left: 25px;
-    margin-right: 25px;
+    grid-area: definitionsDiv;
 }
 
-label {
-    font-size: 18px;
+label, p, a, li, lu {
+    font-size: 15px;
+}
+
+#openingsDiv.text {
+    font-size: 15px;
 }
 
 #chessOpeningsYear {
@@ -24,19 +82,19 @@ label {
 }
 
 #openingsDiv {
-    width: 700px;
-    height: 875px;
+    width: 600px;
+    height: 900px;
     overflow: scroll;
 }
 
 #sortTableByWhite {
     background-color: white;
-    color:black;
+    color: black;
 }
 
 #sortTableByWhite:hover {
     background: steelblue;
-    color:white;
+    color: white;
 }
 
 #sortTableByDraw {
@@ -46,7 +104,7 @@ label {
 
 #sortTableByDraw:hover {
     background: steelblue;
-    color:white;
+    color: white;
 }
 
 #sortTableByBlack {
@@ -56,7 +114,7 @@ label {
 
 #sortTableByBlack:hover {
     background: steelblue;
-    color:white;
+    color: white;
 }
 
 table {
@@ -80,7 +138,7 @@ th rect {
 }
 
 tbody tr:hover {
-    background-color: #efefef;
+    background-color: lightblue;
 }
 
 td {
@@ -117,13 +175,16 @@ td {
     width: 700px;
 }
 
+#bestPlayersDiv h2{
+    width: 900px;
+}
 
 #playerRankings g {
-    font: 18px arial;
+    font: 25px arial;
 }
 
 #playerRankings .axisLabel {
-    font: 18px arial;
+    font: 25px arial;
     font-weight: 600;
 }
 
@@ -134,7 +195,7 @@ All slider css styles are from HW4
 
 .slider {
     -webkit-appearance: none;
-    width: 615px;
+    width: 820px;
     height: 15px;
     border-radius: 5px;
     background: #d3d3d3;
@@ -185,12 +246,23 @@ All slider css styles are from HW4
 
 /* Gini impurity formatting */
 #gini g {
-    font: 18px arial;
+    font: 17px arial;
+    font-weight: 400;
 }
 
-#gini .axisLabel {
-    font: 18px arial;
+.axis text {
+    font:17px arial;
+    font-weight: 400;
+}
+
+.axisLabel {
+    font: 25px arial;
     font-weight: 600;
+}
+
+.axisLabel.opening {
+    font: 18px arial;
+    font-weight: 400;
 }
 
 #gini .axisStart {
@@ -223,18 +295,21 @@ All slider css styles are from HW4
 #legend {
     font: 2px arial;
     font-weight: 600;
-    margin-left:80px;
+    margin-left: 80px;
 }
 
 div.tooltip {
     position: absolute;
     text-align: center;
-    min-width: 60px;
-    height: 170px;
+    min-width: 300px;
+    /*max-width:500px;*/
+    min-height: 200px;
     padding: 2px;
     background: white;
     stroke: gray;
     border-radius: 8px;
     pointer-events: none;
     background-color: lightblue;
+    /*left: 300px;*/
+    /*top: 1300px;*/
 }

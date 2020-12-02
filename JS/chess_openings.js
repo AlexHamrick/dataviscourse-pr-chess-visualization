@@ -44,7 +44,7 @@ class ChessOpenings {
                 this.yearMap.set(d.year, []);
             }
         }
-        
+
         this.headerData = [
             {
                 sorted: false,
@@ -172,7 +172,7 @@ class ChessOpenings {
                 let percent = Math.round(100 * (d[1] - d[0]) / d.data['games']);
                 // text doesn't fit well when <= 6%, so only draw when > 6%.
                 //if (percent > 6) {
-                    return `${percent}%`;
+                return `${percent}%`;
                 //}
             })
             .attr("x", d => 15 + xScale((d[1] - d[0]) / d.data['games']))
@@ -209,13 +209,14 @@ class ChessOpenings {
             //        return y;
             //    });
             let rect = d3.select(this).node().getBoundingClientRect();
+            //let coords = d3.mouse(this);
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 0.97);
             tooltip.html(that.tooltipRender(i))
-                .style('left', `${d.clientX + 20}px`)
-                .style('top', `${d.clientY+15}px`);
-            
+                .style('left', `${(window.pageXOffset + rect['x']) + 400}px`)
+                .style('top', `${(window.pageYOffset + rect['y']) + 100}px`);
+
         });
         rowSelection.on('mouseleave', function (d, i) {
             tooltip.transition()
