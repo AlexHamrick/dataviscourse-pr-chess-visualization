@@ -8,9 +8,9 @@ class PlayerOpening {
             }
             this.openingsData[name].push(playerOpeningsData[i])
         }
-        this.margin = { top: 10, right: 30, bottom: 45, left: 75 };
+        this.margin = { top: 10, right: 30, bottom: 65, left: 75 };
         this.vizWidth = 700 - this.margin.left - this.margin.right;
-        this.vizHeight = 400 - this.margin.top - this.margin.bottom;
+        this.vizHeight = 420 - this.margin.top - this.margin.bottom;
 
 
         this.drawPlot("Smyslov, Vassily", "red");
@@ -39,14 +39,39 @@ class PlayerOpening {
         //plot.append("g").attr('transform', 'translate(0, ' + that.vizHeight + ')')
         //    .call(d3.axisBottom(that.scaleDates)
         //        .tickFormat(d3.format("d")));
-        console.log(data);
+
+        plot.selectAll('axisLabel opening')
+            .data(data)
+            .join('text')
+            .text(d => d.eco)
+            .attr("transform",(d, i)=>
+                "translate(" + scaleX(i) + " ," +
+                (this.vizHeight + this.margin.top + 15) + ")")
+            .style("text-anchor", "middle")
+            .attr('class', 'axisLabel opening');
+        plot.append("text")
+            .attr("transform",
+                "translate(" + ((this.vizWidth) / 2) + " ," +
+                (this.vizHeight + this.margin.top + 45) + ")")
+            .style("text-anchor", "middle")
+            .text("Openings")
+            .attr('class', 'axisLabel');
+        plot.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 15 - this.margin.left)
+            .attr("x", 0 - (this.vizHeight / 2))
+            //.attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Frequency")
+            .attr('class', 'axisLabel');
+        let w = 30;
         plot.selectAll('rect')
             .data(data)
             .join('rect')
-            .attr('x', (d, i) => scaleX(i))
+            .attr('x', (d, i) => scaleX(i)-w/2)
             .attr('y', d=>scaleY(d.pct))
             .attr('height', d=>scaleY(0)-scaleY(d.pct))
-            .attr('width', 30)
+            .attr('width', w)
             .attr('fill', color);
 	}
 }
