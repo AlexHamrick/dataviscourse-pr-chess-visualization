@@ -238,7 +238,8 @@ All slider css styles are from HW4
 
 /* Gini impurity formatting */
 #gini g {
-    font: 25px arial;
+    font: 17px arial;
+    font-weight: 400;
 }
 
 .axis text {

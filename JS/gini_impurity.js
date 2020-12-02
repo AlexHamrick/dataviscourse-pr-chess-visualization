@@ -5,7 +5,7 @@ class GiniImpurity {
             top: 50,
             right: 10,
             bottom: 30,
-            left: 50
+            left: 40
         }
 
         this.dimensions = {
