@@ -216,7 +216,6 @@ class ChessOpenings {
             tooltip.html(that.tooltipRender(i))
                 .style('left', `${(window.pageXOffset + rect['x']) + 400}px`)
                 .style('top', `${(window.pageYOffset + rect['y']) + 100}px`);
-            console.log(d);
 
         });
         rowSelection.on('mouseleave', function (d, i) {

@@ -1,5 +1,9 @@
 class PlayerOpening {
-    constructor(playerOpeningsData) {
+    constructor(playerOpeningsData, allEco) {
+        this.ecoToOpening = new Map();
+        for (let d of allEco) {
+            this.ecoToOpening.set(d.eco, d.opening);
+        }
         this.openingsData = {};
         for (let i = 0; i < playerOpeningsData.length; i++) {
             let name = playerOpeningsData[i]['name'];
@@ -65,6 +69,7 @@ class PlayerOpening {
             .text("Frequency")
             .attr('class', 'axisLabel');
         let w = 30;
+        const tooltip = d3.select(".tooltip");
         plot.selectAll('rect')
             .data(data)
             .join('rect')
@@ -72,6 +77,28 @@ class PlayerOpening {
             .attr('y', d=>scaleY(d.pct))
             .attr('height', d=>scaleY(0)-scaleY(d.pct))
             .attr('width', w)
-            .attr('fill', color);
-	}
+            .attr('fill', color)
+            .on("mouseover", function (d, i) {
+                tooltip
+                    .transition()
+                    .duration(200)
+                    .style('opacity', 0.97);
+                tooltip.html(that.tooltipRender(i))
+                    .style('left', `${(window.pageXOffset + d.clientX + 20)}px`)
+                    .style('top', `${(window.pageYOffset + d.clientY -100)}px`);
+
+            })
+            .on("mouseout", function (d, i) {
+                tooltip.transition()
+                    .duration(500)
+                    .style('opacity', 0);
+            });
+    }
+
+    tooltipRender(d) {
+        let x = Math.round(d.pct * 10000) / 100;
+        return "<h3>" + "Opening:   " + this.ecoToOpening.get(d.eco) + "<\h3>" +
+            "<h4>" + "Frequency Played:   " + (x) + "%</h4>" +
+            "<h4>" + "Games Played:   " + d.count + "</h4>";
+    }
 }
