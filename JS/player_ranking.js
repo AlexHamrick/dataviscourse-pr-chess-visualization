@@ -34,8 +34,8 @@ class PlayerRanking {
         //this.minElo = d3.min(elos);
         this.minElo = 2000;
         this.margin = { top: 10, right: 30, bottom: 45, left: 75 };
-        this.vizWidth = 1080-this.margin.left-this.margin.right;
-        this.vizHeight = 400-this.margin.top-this.margin.bottom;
+        this.vizWidth = 1280-this.margin.left-this.margin.right;
+        this.vizHeight = 500-this.margin.top-this.margin.bottom;
         this.legendWidth = 370;
         this.dates = [...new Set(rankingData.map(d => d.date))]
         // console.log('dates', this.dates);
