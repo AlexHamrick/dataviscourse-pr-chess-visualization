@@ -144,14 +144,16 @@ class ChessOpenings {
         let series = d3.stack().keys(["white", "draw", "black"])(this.currentData);
         let transpose = d3.transpose(series);
         let xScale = d3.scaleLinear().domain([0, 1]).range([0, 400]);
-        let svg = resultCol.append("svg").attr("width", 410).attr("height", 50);
+        let svgHeight = 80;
+        let barHeight = 20;
+        let svg = resultCol.append("svg").attr("width", 410).attr("height", svgHeight);
         let group = svg.append("g");
         let bars = group
             .selectAll("rect").data((d, i) => transpose[i]).join("rect");
-        bars.attr("x", d => xScale(d[0] / d.data['games']))
-            .attr("y", 10)
+        bars.attr("x", 5)
+            .attr("y", (d, i) => 11 + i * (barHeight + 2))
             .attr("width", d => xScale((d[1] - d[0]) / d.data['games']))
-            .attr("height", 30)
+            .attr("height", barHeight)
             .attr("fill", function (d, i) {
                 if (i == 0) {
                     return 'white';
@@ -173,15 +175,15 @@ class ChessOpenings {
                     return `${percent}%`;
                 }
             })
-            .attr("x", d => 8 + xScale(d[0] / d.data['games']))
-            .attr("y", 30)
+            .attr("x", d => 15 + xScale((d[1] - d[0]) / d.data['games']))
+            .attr("y", (d, i) => 26 + i * (barHeight + 2))
             .attr("fill", function (d, i) {
                 if (i == 0) {
                     return "black";
                 } else if (i == 1) {
-                    return "white";
+                    return "black";
                 } else {
-                    return "white";
+                    return "black";
                 }
             });
 
