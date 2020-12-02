@@ -2,19 +2,24 @@
     display: grid;
     height: 100vh;
     width: 100vw;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr;
     grid-template-rows: 0.1fr 0.5fr 1fr 1fr;
     grid-template-areas: 
     "header header"
-    "definitionsDiv videoDiv"
-    "chessOpeningsMainDiv mixednessDiv"
-    "chessOpeningsMainDiv bestPlayersDiv"
+    "definitionsDiv bestPlayersDiv"
     "chessOpeningsMainDiv bestPlayerOpenings"
-;
+    "chessOpeningsMainDiv mixednessDiv";
     column-gap: 0%;
     justify-items: center;
 }
-
+/*
+header
+definitionsDiv
+mixednessDiv
+bestPlayersDiv
+bestPlayerOpenings
+chessOpeningsMainDiv
+*/
 #header {
     grid-area: header;
 }
@@ -40,7 +45,7 @@ h1, h2, h3, h4 {
 }
 
 .row {
-    display : grid;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
 }
@@ -50,7 +55,7 @@ h1, h2, h3, h4 {
 }
 
 label, p, a, li, lu {
-font-size: 25px;
+    font-size: 15px;
 }
 
 #openingsDiv.text {
@@ -63,18 +68,18 @@ font-size: 25px;
 
 #openingsDiv {
     width: 600px;
-    height: 1000px;
+    height: 900px;
     overflow: scroll;
 }
 
 #sortTableByWhite {
     background-color: white;
-    color:black;
+    color: black;
 }
 
 #sortTableByWhite:hover {
     background: steelblue;
-    color:white;
+    color: white;
 }
 
 #sortTableByDraw {
@@ -84,7 +89,7 @@ font-size: 25px;
 
 #sortTableByDraw:hover {
     background: steelblue;
-    color:white;
+    color: white;
 }
 
 #sortTableByBlack {
@@ -94,7 +99,7 @@ font-size: 25px;
 
 #sortTableByBlack:hover {
     background: steelblue;
-    color:white;
+    color: white;
 }
 
 table {
@@ -261,7 +266,7 @@ All slider css styles are from HW4
 #legend {
     font: 2px arial;
     font-weight: 600;
-    margin-left:80px;
+    margin-left: 80px;
 }
 
 div.tooltip {

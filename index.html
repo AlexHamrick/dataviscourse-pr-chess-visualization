@@ -23,13 +23,6 @@
 
 
     <div id="definitionsDiv">
-        <div id="processBookDiv">
-            <h2>Process Book</h2>
-            <a
-                    href="https://github.com/AlexHamrick/dataviscourse-pr-chess-visualization/blob/main/Process%20Book.pdf">Click
-                here to see process book.</a>
-        </div>
-
         <h2>Background Information</h2>
         <ul>
             <li>Elo</li>
@@ -55,18 +48,26 @@
                 </ul>
             </ul>
         </ul>
+
+        <div id="videoDiv">
+            <h2>Video Explanation</h2>
+            <p style="color:blue">Insert YouTube video link here.</p>
+        </div>
+
+        <div id="processBookDiv">
+            <h2>Process Book</h2>
+            <a
+                    href="https://github.com/AlexHamrick/dataviscourse-pr-chess-visualization/blob/main/Process%20Book.pdf">Click
+                here to see process book.</a>
+        </div>
     </div>
 
-    <div id="videoDiv">
-        <h2>Video Explanation</h2>
-        <p style="color:blue">Embed YouTube video here.</p>
-    </div>
 
     <div id="chessOpeningsMainDiv">
         <h2>Chess Opening Results</h2>
         <h2 id="chessOpeningsYear"></h2>
         <div>
-            <h3>Show Chess Opening Results For</h3>
+            <p>Show Chess Opening Results For</p>
             <input type="radio" id="radioAllData" name="allButtons" checked>
             <label for="radioAllData" name="allButtons">All Years</label>
             <input type="radio" id="radioSlider" name="allButtons">
@@ -101,12 +102,9 @@
         </div>
     </div>
 
-    <div>
-        <h2>"Mixedness" of Chess Openings for Top Players</h2>
-        <div id="gini">
-            <svg></svg>
-        </div>
 
+
+    <div id="bestPlayersDiv">
         <div id="playerRankings">
             <div>
                 <h2>Top Players Over Time</h2>
@@ -122,9 +120,6 @@
                 </select>
             </div>
         </div>
-    </div>
-
-    <div id="betsPlayersDiv">
         <svg id="best-players"></svg>
         <div id="activeYear-bar"></div>
     </div>
@@ -133,6 +128,15 @@
         <h2>Openings Frequency for Top Players</h2>
         <h2 id="openingName"></h2>
     </div>
+
+
+    <div id="mixednessDiv">
+        <h2>"Mixedness" of Chess Openings for Top Players</h2>
+        <div id="gini">
+            <svg></svg>
+        </div>
+    </div>
+
 
 </div>
 </body>
