@@ -1,6 +1,8 @@
 .container {
-    display: inline-grid;
-    grid-template-columns: 0.2fr 1fr;
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 0.1fr 0.5fr 1fr 1fr;
     grid-template-areas: 
     "header header"
@@ -9,7 +11,7 @@
     "chessOpeningsMainDiv bestPlayersDiv"
     "chessOpeningsMainDiv bestPlayerOpenings"
 ;
-    column-gap: 5%;
+    column-gap: 0%;
     justify-items: center;
 }
 
@@ -33,18 +35,8 @@
     grid-area: bestPlayersDiv;
 }
 
-h1 {
+h1, h2, h3, h4 {
     text-align: center;
-    font: 1em;
-}
-
-h2, h3, h4 {
-    text-align: center;
-    font-size: 0.75em;
-}
-
-p, li, lu {
-    font-size: 0.75em;
 }
 
 .row {
@@ -54,12 +46,15 @@ p, li, lu {
 }
 
 #definitionsDiv {
-    font-size: 1em;
     grid-area: definitionsDiv;
 }
 
-label {
-    font-size: 12px;
+label, p, a, li, lu {
+font-size: 25px;
+}
+
+#openingsDiv.text {
+    font-size: 15px;
 }
 
 #chessOpeningsYear {
@@ -67,8 +62,8 @@ label {
 }
 
 #openingsDiv {
-    width: 550px;
-    height: 600px;
+    width: 600px;
+    height: 1000px;
     overflow: scroll;
 }
 
@@ -162,11 +157,11 @@ td {
 
 
 #playerRankings g {
-    font: 12px arial;
+    font: 25px arial;
 }
 
 #playerRankings .axisLabel {
-    font: 12px arial;
+    font: 25px arial;
     font-weight: 600;
 }
 
@@ -228,11 +223,11 @@ All slider css styles are from HW4
 
 /* Gini impurity formatting */
 #gini g {
-    font: 12px arial;
+    font: 25px arial;
 }
 
 #gini .axisLabel {
-    font: 12px arial;
+    font: 25px arial;
     font-weight: 600;
 }
 
@@ -272,8 +267,8 @@ All slider css styles are from HW4
 div.tooltip {
     position: absolute;
     text-align: center;
-    min-width: 500px;
-    max-width:500px;
+    min-width: 60px;
+    /*max-width:500px;*/
     height: 225px;
     padding: 2px;
     background: white;
@@ -281,6 +276,6 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
     background-color: lightblue;
-    left: 5px;
-    top: 1500px;
+    /*left: 300px;*/
+    /*top: 1300px;*/
 }
