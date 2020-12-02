@@ -1,4 +1,5 @@
 class ChessOpenings {
+    // 29 Nov 2020 - Performance can be improved by pre-calculating game results in csv file
     constructor(data, allEco, gameResults) {
         this.data = data;
         this.ecoToOpening = new Map();
@@ -142,10 +143,10 @@ class ChessOpenings {
         let resultCol = tdSelection.filter((d, i) => i === 2);
         let series = d3.stack().keys(["white", "draw", "black"])(this.currentData);
         let transpose = d3.transpose(series);
-        let xScale = d3.scaleLinear().domain([0, 1]).range([0, 350]);
+        let xScale = d3.scaleLinear().domain([0, 1]).range([0, 400]);
         let svgHeight = 80;
         let barHeight = 20;
-        let svg = resultCol.append("svg").attr("width", 350).attr("height", svgHeight);
+        let svg = resultCol.append("svg").attr("width", 410).attr("height", svgHeight);
         let group = svg.append("g");
         let bars = group
             .selectAll("rect").data((d, i) => transpose[i]).join("rect");
@@ -212,8 +213,8 @@ class ChessOpenings {
                 .duration(200)
                 .style('opacity', 0.97);
             tooltip.html(that.tooltipRender(i))
-            // .style('left', `${d.clientX + 20}px`)
-            // .style('top', `${d.clientY + 15}px`);
+                .style('left', `${d.clientX + 20}px`)
+                .style('top', `${d.clientY+15}px`);
 
         });
         rowSelection.on('mouseleave', function (d, i) {
@@ -224,7 +225,7 @@ class ChessOpenings {
     }
 
     tooltipRender(d) {
-        return "<h3>" + "Opening: " + this.ecoToOpening.get(d.eco) + "<\h3>" +
+        return "<h3>" +"Opening: " + this.ecoToOpening.get(d.eco) + "<\h3>" +
             "<h4>" + "White:  " + d.white + "</h4>" +
             "<h4>" + "Draw:   " + d.draw + "</h4>" +
             "<h4>" + "Black:   " + d.black + "</h4>";
