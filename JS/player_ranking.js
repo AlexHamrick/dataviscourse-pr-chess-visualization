@@ -151,7 +151,7 @@ class PlayerRanking {
             that.updateTopPlayerLines(that.currentYear);
         });
 
-        that.updateOtherViews(this.currentYear, "Smyslov, Vassily", "red");
+        that.updateOtherViews(this.currentYear, "Petrosian, Tigran V", "red");
     }
 
     updateTopPlayerLines(currentYear) {

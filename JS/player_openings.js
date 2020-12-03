@@ -18,8 +18,6 @@ class PlayerOpening {
         this.vizWidth = 700 - this.margin.left - this.margin.right;
         this.vizHeight = 360 - this.margin.top - this.margin.bottom;
         this.freqMax = .06;
-
-        this.drawPlot("Smyslov, Vassily", "red");
     }
 
     drawPlot(name, color) {
