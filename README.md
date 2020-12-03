@@ -7,9 +7,13 @@ The project video can be found at:
 https://youtu.be/ZFYF_wC6-JI
 
 Our project uses the following folders:
+
 -Data: contains all of the csv's used in this project
+
 -DataProcessing: contains all of the scripts used to process the data and generate the csvs
+
 -JS: contains all of our javascript code and visualizations.
+
 -Design Prototypes: contains drawings used in our initial sketching of the project
 
 Our project also contains a "Process Book.pdf" which highlights all of the work that went into creating this project.
