@@ -1,8 +1,7 @@
 class PlayerOpening {
     constructor(playerOpeningsData, allEco) {
-        console.log(playerOpeningsData);
-        let temp = playerOpeningsData.map(d => parseFloat(d.pct));
-        console.log(d3.max(temp));
+        //let temp = playerOpeningsData.map(d => parseFloat(d.pct));
+        //console.log(d3.max(temp));
         this.ecoToOpening = new Map();
         for (let d of allEco) {
             this.ecoToOpening.set(d.eco, d.opening);
@@ -18,7 +17,7 @@ class PlayerOpening {
         this.margin = { top: 10, right: 30, bottom: 65, left: 85 };
         this.vizWidth = 700 - this.margin.left - this.margin.right;
         this.vizHeight = 360 - this.margin.top - this.margin.bottom;
-
+        this.freqMax = .06;
 
         this.drawPlot("Smyslov, Vassily", "red");
     }
@@ -28,7 +27,7 @@ class PlayerOpening {
         d3.select('#openingName').text(name).style('color', color);
         let data = this.openingsData[name];
         let scaleY = d3.scaleLinear()
-            .domain([0, data[0].pct])
+            .domain([0, this.freqMax])
             .range([this.vizHeight, 0]);
         let scaleX = d3.scaleLinear()
             .domain([-1, data.length])

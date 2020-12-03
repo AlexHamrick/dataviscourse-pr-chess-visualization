@@ -302,13 +302,13 @@ All slider css styles are from HW4
     text-anchor: middle;
 }
 
-#gini rect {
+/*#gini rect {
     fill: #04bdbd
 }
 
 #gini .selected-bin {
     fill: red
-}
+}*/
 
 #gini .density-line {
     fill: none;
@@ -341,4 +341,21 @@ div.tooltip {
 
 .topPaths {
     pointer-events: all;
+}
+
+#videoDiv a {
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+#videoDiv a:hover {
+    cursor: pointer;
+}
+
+#videoDiv a:visited {
+    background-color: #ccc;
 }

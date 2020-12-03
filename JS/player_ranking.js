@@ -6,9 +6,10 @@ class PlayerRanking {
         this.updateOtherViews = updateOtherViews;
         this.rankingData = {};
         this.careerData = {};
-        this.currentYear = 1952;
+        this.currentYear = 1970;
         for (let i = 0; i < rankingData.length; i++) {
             let date = rankingData[i]['date'];
+            if (date < this.currentYear) continue;
             if (!(date in this.rankingData)) {
                 this.rankingData[date] = [];
             }
@@ -16,17 +17,20 @@ class PlayerRanking {
         }
 
         for (let i = 0; i < careerData.length; i++) {
+            if (careerData[i]['date'] < this.currentYear) continue;
             let name = careerData[i]['name'];
             if (!(name in this.careerData)) {
                 this.careerData[name] = [];
             }
             this.careerData[name].push(careerData[i])
         }
+        console.log(this.careerData, this.rankingData)
         this.PLAYER_COUNT = 3;
-        this.playerColors = [ "red", "blue", "green", "cyan", "purple", "orange","lime", "pink", "brown", "maroon"];
+        //this.playerColors = [ "red", "blue", "green", "cyan", "purple", "orange","lime", "pink", "brown", "maroon"];
+        this.playerColors = ['#E41A1C', '#377EB8', '#4DAF4A', '#984EA3', '#FF7F00', '#FFFF33', '#A65628', '#F781BF', 'magenta', '#000000'];
         // console.log('rankingData', this.rankingData);
         // console.log('careerData', this.careerData);
-        this.minYear = rankingData[0]['date'];
+        this.minYear = 1970;
         this.maxYear = rankingData[rankingData.length-1]['date'];
         let elos = careerData.map(d => d.elo)
         // console.log('elos', elos)
@@ -39,6 +43,11 @@ class PlayerRanking {
         this.vizHeight = 420-this.margin.top-this.margin.bottom;
         
         this.dates = [...new Set(rankingData.map(d => d.date))]
+        for (let i = this.dates.length - 1; i >= 0; i--) {
+            if (this.dates[i] < this.currentYear)
+                this.dates.splice(i, 1);
+        }
+        console.log(this.dates)
         // console.log('dates', this.dates);
         this.scaleElo = d3.scaleLinear()
             .domain([this.minElo, this.maxElo])
@@ -47,7 +56,7 @@ class PlayerRanking {
             .domain([this.dates[0], this.dates[this.dates.length - 1]])
             .range([0, this.vizWidth]);
         this.drawPlot();
-        this.updateTopPlayerLines(1952);
+        this.updateTopPlayerLines(this.currentYear);
         // console.log(this.rankingData[1952][0]['elo']);
         // console.log(this.minElo, this.maxElo);
     }
@@ -84,7 +93,7 @@ class PlayerRanking {
             .attr("stroke-width", 1.5)
             .attr("d", d3.line()
                 .x(function (d) { return that.scaleDates(d) })
-                .y(function (d) { return that.scaleElo(that.rankingData[d][0]['elo']) })
+                .y(function (d) {return that.scaleElo(that.rankingData[d][0]['elo']) })
             )
         plot.append("text")
             .attr("transform",

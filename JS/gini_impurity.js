@@ -43,7 +43,7 @@ class GiniImpurity {
         this.drawDensity()        
     }
 
-    drawHistogram(selectedName) {
+    drawHistogram(selectedName, color) {
         let selectedIdx = this.getSelectedBinIdx(selectedName)
 
         for(let idx = 0; idx < this.bins.length; ++idx) {
@@ -66,7 +66,7 @@ class GiniImpurity {
             .attr("transform", d => "translate(" + this.xAxisScale(d["x0"]) + "," + this.histYAxisScale(d["length"]) + ")")
             .attr("width", d => this.xAxisScale(d["x1"]) - this.xAxisScale(d["x0"]))
             .attr("height", d => this.dimensions.height - this.histYAxisScale(d["length"]))
-            .attr("class", (d, i) => i == selectedIdx ? "selected-bin" : "")
+            .style("fill", (d, i) => i == selectedIdx ? color: "#04bdbd")
     }
 
     getSelectedBinIdx(selectedName) {

@@ -5,7 +5,7 @@ loadData().then(data => {
 
     function updateOtherPlots(currentYear, selectedName, color) {
         chessOpenings.updateYear(currentYear);
-        giniImpurity.drawHistogram(selectedName)
+        giniImpurity.drawHistogram(selectedName, color);
         playerOpenings.drawPlot(selectedName, color);
         
     }
